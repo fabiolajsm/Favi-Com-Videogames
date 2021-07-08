@@ -5,7 +5,7 @@ const { getAllGenres } = require('../controllers/genres')
 
 const router = Router();
 
-router.use('/videogames', getGames);
+router.use('/videogames', getGames); 
 router.get('/videogame/:id', getGamebyId);
 router.post('/videogame/post', addGame);
 router.use('/genres', getAllGenres);

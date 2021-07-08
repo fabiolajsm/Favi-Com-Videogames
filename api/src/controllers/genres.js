@@ -6,59 +6,27 @@ const { Genre } = require('../db');
 
 // 1) Obtener todos los tipos de géneros de videojuegos posibles
 // En una primera instancia deberán traerlos desde rawg
-// y guardarlos en su propia base de datos y luego ya utilizarlos desde ahí (khe?????????????
+// y guardarlos en su propia base de datos y luego ya utilizarlos desde ahí
 
-// no se si esto sirva, en teoria, cuando quiera agregar generos, invocaria a addGenres, y en la otra mostraria todo y borralo.
-// !! falta ver como crearlo en mi base de datos
-const addGenres = async (req, res) => {
-    let { name } = req.body
+const getAllGenres = async (_req, res) => {
     try {
-        let newG = await Genre.findOrCreate({
-            where: { name: name }
-        })
-        return res.json(newG)
-    }
-    catch (err) {
-        next(err)
-    }
-}
-
-const getAllGenres = async (req, res) => {
-    try {
-        let results = []
-        const dataGenre = await Genre.findAll()
+        let results = [] 
         const api = await axios.get(`${GENRE_URL}?key=${API_KEY}`)
+        const dataGenre = await Genre.findAll()
         let response = dataGenre.concat(api.data.results)
         response.forEach(e => {
             results.push(e.name)
         });
-        return res.send(results)
+        for (let i = 0; i < results.length; i++) {
+            await Genre.findOrCreate({
+                where: { name: results[i] }
+            })
+        }
+        return res.json(results)
     }
     catch (err) {
         console.log(`Error: ${err}`);
     }
 }
 
-// lo que trae la API:
-// [
-//     "Action",
-//     "Indie",
-//     "Adventure",
-//     "RPG",
-//     "Strategy",
-//     "Shooter",
-//     "Casual",
-//     "Simulation",
-//     "Puzzle",
-//     "Arcade",
-//     "Platformer",
-//     "Racing",
-//     "Massively Multiplayer",
-//     "Sports",
-//     "Fighting",
-//     "Family",
-//     "Board Games",
-//     "Educational",
-//     "Card"
-// ]
-module.exports = { getAllGenres, addGenres };
+module.exports = { getAllGenres }; 

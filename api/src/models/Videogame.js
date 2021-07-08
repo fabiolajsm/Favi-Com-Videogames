@@ -27,10 +27,8 @@ module.exports = (sequelize) => {
     rating: {
       type: DataTypes.DECIMAL,
       allowNull: true
-    },
-    platforms: {
-      type: DataTypes.ARRAY(DataTypes.STRING),  // also can be: DataTypes.JSON, 
-      allowNull: false
     }
+  }, {
+    timestamps: false
   });
 };

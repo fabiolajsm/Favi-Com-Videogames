@@ -1,10 +1,10 @@
 require("dotenv").config();
 const axios = require('axios');
-const { Videogame } = require('../db');
+const { Videogame, Genre, Platform } = require('../db');
 const BASE_URL = process.env.BASE_URL
 const API_KEY = process.env.API_KEY
 
-const ONEHUNDRED = async function () {
+const ONEHUNDRED = async function () { // refactorear!! no hacer 5 llamadas a la api, es nefasto.
     let r1 = await axios.get(`${BASE_URL}?key=${API_KEY}`);
     let r2 = await axios.get(`${BASE_URL}?key=${API_KEY}&page=2`);
     let r3 = await axios.get(`${BASE_URL}?key=${API_KEY}&page=3`);
@@ -21,8 +21,18 @@ const ONEHUNDRED = async function () {
         platforms: game.platforms.map(p => p.platform.name),
         genres: game.genres.map(g => g.name)
     }))
-    let dataDB = await Videogame.findAll();
-    let allResults = await [...dataAPI, ...dataDB].slice(0, 101)
+    let dataDB = await Videogame.findAll({ include: [Genre, Platform] });
+    let myData = await dataDB && dataDB.map(game => ({
+        id: game.ID,
+        name: game.name,
+        description: game.description || '',
+        img: game.img,
+        releaseDate: game.releaseDate,
+        rating: game.rating,
+        platforms: game.platforms.map(p => p.name), 
+        genres: game.genres.map(g => g.name)
+    }))
+    let allResults = await [...myData, ...dataAPI].slice(0, 101)
     return allResults
 };
 
@@ -39,7 +49,7 @@ const getGames = async (req, res) => {
             return res.status(404).send('Sorry! I dont have that videogame')
         }
         else {
-            let filter = allResults.filter(e => e.name.includes(name)).slice(0, 16);
+            let filter = allResults.filter(e => e.name.toLowerCase().includes(name.toLowerCase())).slice(0, 16);
             let principalRouteData = filter.map(e => {
                 let obj = {
                     img: e.img,

@@ -1,16 +1,23 @@
 require("dotenv").config();
-const { Videogame, Genre } = require('../db');  // Genre para el nuevo modelo de genre en el newGame.
+const axios = require("axios");
+const { Videogame, Genre, Platform } = require('../db');  // Genre para el nuevo modelo de genre en el newGame.
 let { ONEHUNDRED } = require('./videogames')
 
-const getGamebyId = async (req, res, next) => {   // Obviamente no mostrar el id en el front.
+// Los campos mostrados en la ruta principal para cada videojuegos (imagen, nombre, y géneros)
+// Descripción
+// Fecha de lanzamiento
+// Rating
+// Plataformas
+
+const getGamebyId = async (req, res, _next) => {
     let { id } = req.params
     let results = await ONEHUNDRED()
     if (id && typeof id === 'string') {
-        let filter = results.filter(e => e.id == parseInt(id))
+        let filter = results.filter(e => e.id == id)
         return filter.length > 0 ? res.send(filter) : res.status(404).send(`Sorry! There's no game that match`)
     }
     else {
-        return res.send('Tell me the game to search by id')
+        return res.status(404).send(`There's no id.`)
     }
 };
 
@@ -25,27 +32,30 @@ const getGamebyId = async (req, res, next) => {   // Obviamente no mostrar el id
 //  Fecha de lanzamiento
 //  Rating
 
-const addGame = async (req, res, next) => {
+const addGame = async (req, res, _next) => {
     const { name, description, img, releaseDate, rating, platforms, genres } = req.body
     try {
-        let game = await Videogame.create({
-            name,
-            description,
-            img,
-            releaseDate,
-            rating,
-            platforms
-        })  // falta ver como creo un nuevo modelo Genre y se lo uno al game
-        // if (genres) {
-        //     // let newG = genres.map(async (g) => {
-        //     //     await Genre.create({ name: g })
-        //     // });
-        //     // console.log(newG, 'aquiiii');
-        //     await Genre(genres)
-        //     game.set()
-        //     return res.send(game)
-        // }
-        return res.send(game)
+        let exists = await Videogame.findOne({ where: { name: name }, include: Genre })
+        if (exists) return res.send('That videogame already exists, try adding another!')
+        const newGame = await Videogame.create({
+            name: name,
+            description: description,
+            img: img,
+            releaseDate: releaseDate,
+            rating: rating,
+        })
+        let g = genres.map(e => {
+            return { name: e };
+        })
+        let p = platforms.map(e => {
+            return { name: e };
+        })
+        var newGenres = await Genre.bulkCreate(g)
+        var newPlatform = await Platform.bulkCreate(p)
+        await newGame.setGenres(newGenres);
+        await newGame.setPlatforms(newPlatform);
+        let game = await Videogame.findOne({ where: { name: name }, include: [Platform, Genre] })
+        return res.json(game)
     }
     catch (err) {
         next(err)
