@@ -1,26 +1,41 @@
 require("dotenv").config();
 const axios = require("axios");
-const { Videogame, Genre, Platform } = require('../db');  // Genre para el nuevo modelo de genre en el newGame.
+const { Videogame, Genre, Platform } = require('../db');  
 let { ONEHUNDRED } = require('./videogames')
-
+const BASE_URL = process.env.BASE_URL
+const API_KEY = process.env.API_KEY
 // Los campos mostrados en la ruta principal para cada videojuegos (imagen, nombre, y géneros)
 // Descripción
 // Fecha de lanzamiento
 // Rating
 // Plataformas
-
 const getGamebyId = async (req, res, _next) => {
     let { id } = req.params
-    let results = await ONEHUNDRED()
-    if (id && typeof id === 'string') {
-        let filter = results.filter(e => e.id == id)
-        return filter.length > 0 ? res.send(filter) : res.status(404).send(`Sorry! There's no game that match`)
+    try {
+        let results = await ONEHUNDRED()
+        if (id && typeof id === 'string') {
+            let filter = results.filter(e => e.id == id)
+            let doesntExist = filter.some(e => e.description == '')
+            if (doesntExist) {
+                let api = await axios.get(`${BASE_URL}/${id}?key=${API_KEY}`)
+                let detail = {
+                    img: api.data.background_image,
+                    name: api.data.name,
+                    genres: api.data.genres.map(e => e.name),
+                    description: api.data.description,
+                    releaseDate: api.data.released,
+                    rating: api.data.rating,
+                    platforms: api.data.platforms.map(p => p.platform.name)
+                };
+                return res.json(detail)
+            }
+            return filter.length > 0 ? res.send(filter) : res.status(404).send(`Sorry! There's no game that match`)
+        }
     }
-    else {
-        return res.status(404).send(`There's no id.`)
+    catch (err) {
+        res.status(404).send(err)
     }
 };
-
 // POST /videogame:
 // Recibe los datos recolectados desde el formulario controlado de la ruta de creación de videojuego por body
 // Crea un videojuego en la base de datos
@@ -31,7 +46,6 @@ const getGamebyId = async (req, res, _next) => {
 //  img 
 //  Fecha de lanzamiento
 //  Rating
-
 const addGame = async (req, res, _next) => {
     const { name, description, img, releaseDate, rating, platforms, genres } = req.body
     try {

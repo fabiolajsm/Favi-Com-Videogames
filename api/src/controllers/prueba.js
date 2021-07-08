@@ -32,3 +32,15 @@
 //         return res.send(final)
 //     })
 //     .catch(err => next(err))
+
+// const getGamebyId = async (req, res, _next) => {
+//     let { id } = req.params
+//     let results = await ONEHUNDRED()
+//     if (id && typeof id === 'string') {
+//         let filter = results.filter(e => e.id == id)
+//         return filter.length > 0 ? res.send(filter) : res.status(404).send(`Sorry! There's no game that match`)
+//     }
+//     else {
+//         return res.status(404).send(`There's no id.`)
+//     }
+// };
