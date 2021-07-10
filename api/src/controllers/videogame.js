@@ -27,9 +27,9 @@ const getGamebyId = async (req, res, _next) => {
                     rating: api.data.rating,
                     platforms: api.data.platforms.map(p => p.platform.name)
                 };
-                return res.json(detail)
+                return res.send(detail)
             }
-            return filter.length > 0 ? res.send(filter) : res.status(404).send(`Sorry! There's no game that match`)
+            return filter.length > 0 ? res.send(filter[0]) : res.status(404).send(`Sorry! There's no game that match`)
         }
     }
     catch (err) {

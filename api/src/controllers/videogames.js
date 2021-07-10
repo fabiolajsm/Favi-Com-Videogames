@@ -29,7 +29,7 @@ const ONEHUNDRED = async function () { // refactorear!! no hacer 5 llamadas a la
         img: game.img,
         releaseDate: game.releaseDate,
         rating: game.rating,
-        platforms: game.platforms.map(p => p.name), 
+        platforms: game.platforms.map(p => p.name),
         genres: game.genres.map(g => g.name)
     }))
     let allResults = await [...myData, ...dataAPI].slice(0, 101)
@@ -52,9 +52,11 @@ const getGames = async (req, res) => {
             let filter = allResults.filter(e => e.name.toLowerCase().includes(name.toLowerCase())).slice(0, 16);
             let principalRouteData = filter.map(e => {
                 let obj = {
+                    id: e.id,
                     img: e.img,
                     name: e.name,
-                    genres: e.genres
+                    genres: e.genres,
+                    rating: e.rating
                 }
                 return obj
             })

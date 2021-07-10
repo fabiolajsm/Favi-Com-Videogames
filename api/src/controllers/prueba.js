@@ -44,3 +44,31 @@
 //         return res.status(404).send(`There's no id.`)
 //     }
 // };
+// games.forEach(g => {
+//     return g.platforms.forEach(async (e) => {
+//         return await Platform.findOrCreate({ where: { name: e } })
+//     })
+// })
+
+// const getPlatforms = async (_req, res) => {
+//     try {
+//         let results = []
+//         let games = await ONEHUNDRED()  
+//         const dataP = await Platform.findAll() 
+//         games.forEach(g => {
+//             g.platforms.forEach(e => {
+//                 results.push(e)
+//             })
+//         })
+//         dataP.forEach(p => {
+//             results.push(p.name)
+//         })
+//         for (let i = 0; i < results.length; i++) {
+//             await Platform.findOrCreate({ where: { name: results[i] } })
+//         }
+//         return res.json(results)
+//     }
+//     catch (err) {
+//         console.log(`Error: ${err}`);
+//     }
+// }

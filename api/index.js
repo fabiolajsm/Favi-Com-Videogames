@@ -18,11 +18,13 @@
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
+const { platforms } = require('./src/controllers/platforms.js');
 const { conn } = require('./src/db.js');
 const PORT = process.env.PORT
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => { 
+conn.sync({ force: true }).then(() => {
+  platforms()
   console.log('Successfully connect to the database');
   server.listen(PORT, () => {
     console.log(`Listening in port ${PORT}`); // eslint-disable-line no-console
