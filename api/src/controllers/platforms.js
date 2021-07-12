@@ -17,7 +17,8 @@ async function platforms() {
 
 const getPlatforms = async (_req, res) => { // rutaa
     try {
-        return res.send(await Platform.findAll())
+        let p = await Platform.findAll()
+        return res.send(p)
     }
     catch (err) {
         console.log(`Error: ${err}`);

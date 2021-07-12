@@ -22,7 +22,8 @@ const getAllGenres = async (_req, res) => {
                 where: { name: results[i] }
             })
         }
-        return res.json(results)
+        let all = await Genre.findAll()
+        return res.json(all)
     }
     catch (err) {
         console.log(`Error: ${err}`);

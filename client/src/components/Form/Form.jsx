@@ -1,70 +1,131 @@
-// // import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { addGame, getGenres, getPlatforms } from '../../actions/addGame'
 
-// // // export function validate(input) {
-// // //     let image = `https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`
-// // //     let errors = {};
-// // //     if (!input.name) {
-// // //         errors.username = 'Name is required';
-// // //     }
-// // //     if (!input.img) {
-// // //         errors.password = 'Image is required';
-// // //     }
-// // //     else if (image.test(input.img)) {
-// // //         errors.password = 'Password is invalid';
-// // //     }
-// // //     if (!input.description) {
-// // //         errors.password = 'Password is required';
-// // //     }
-// // //     else if (!/(?=.*[0-9])/.test(input.password)) {
-// // //         errors.password = 'Password is invalid';
-// // //     }
-// // //     return errors;
-// // // };
+export default function CreateGame() {
+    const stateP = useSelector(state => state.platforms)
+    const stateG = useSelector(state => state.genres)
 
-// export default function Form() {
-//     const [errors, setErrors] = useState({});
-//     //Escalable:
-//     const [input, setInput] = useState({
-//         name: '',
-//         description: '',
-//         img: '',
-//         releaseDate: '',
-//         rating: '',
-//         platforms: [],
-//         genres: []
-//     });
-//     const handleInputChange = function (e) {
-//         setInput({
-//             ...input,
-//             [e.target.name]: e.target.value
-//         });
-//         setErrors(validate({
-//             ...input,
-//             [e.target.name]: e.target.value
-//         }));
-//     }
-//     // Aqui no es escalable:
-//     // const [username, setUsername] = React.useState('')
-//     // const [password, setPassword] = React.useState('')
-//     return (
-//         <form>
-//             {/* <form onSubmit={handleSubmit}> */}
-//             < div >
-//                 <label>Username:</label>
-//                 {/* <input key='username' type="text" name="username" onChange={(e) => setUsername(e.target.value)} value={username} /> */}
-//                 <input className={errors.username && 'danger'} key='username' type="text" name="username" onChange={handleInputChange} value={input.username} />
-//                 {errors.username && (
-//                     <p className="danger">{errors.username}</p>
-//                 )}
-//             </div >
-//             <div>
-//                 <label>Password:</label>
-//                 {/* <input key='password' type="password" name="password" onChange={(e) => setPassword(e.target.value)} value={password} /> */}
-//                 <input key='password' type="password" name="password" onChange={handleInputChange} value={input.password} />
-//                 <br />
-//                 <button name='submit' type='submit'> Submit!</button>
-//             </div>
-//         </form >
-//     )
-// }
+    useEffect(() => {
+        dispatch(getPlatforms())
+    }, [])
+
+    useEffect(() => {
+        dispatch(getGenres())
+    }, [])
+
+    const dispatch = useDispatch()
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('')
+    const [img, setImg] = useState('')
+    const [rating, setRating] = useState('')
+    const [releaseDate, setReleaseDate] = useState('')
+    const [platforms, setPlatforms] = useState([])
+    const [genres, setGenres] = useState([])
+
+    const { push } = useHistory()
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        try {
+            let body = {  // lo que le voy a pasar al addNewGame
+                name: name,
+                description: description,
+                img: img,
+                releaseDate: releaseDate,
+                rating: rating,
+                platforms: platforms,
+                genres: genres
+            } //  name, description, img, releaseDate, rating, platforms, genres
+            // console.log(body, 'entreeeeeeeeeeeeeeeee');
+            dispatch(addGame(body))
+            alert('Your videogame was created!')
+            push("/videogames")
+        }
+        catch (err) {
+            console.log(err.message);
+        }
+    }
+
+    function handleChange(e) {
+        switch (e.target.name) {
+            case 'name': setName(e.target.value); break;
+            case 'description': setDescription(e.target.value); break;
+            case 'img': setImg(e.target.value); break;
+            case 'rating': setRating(e.target.value); break;
+            case 'releaseDate': setReleaseDate(e.target.value); break;
+            case 'platforms': setPlatforms([...platforms, e.target.value]); break; // []
+            case 'genres': setGenres([...genres, e.target.value]); break;
+            default: break
+        }
+    }
+
+    return (
+        <div>
+            {/* onSubmit={(e) => handleSubmit(e)}    lo que tenia antes el form */}
+            <form onSubmit={(e) => handleSubmit(e)} >
+                <div>
+                    <label>Name:</label>
+                    <input type="text" name="name" value={name} onChange={handleChange} placeholder="Name" />
+                </div>
+                <div>
+                    <label>Description:</label>
+                    <input type="text" name="description" value={description} onChange={handleChange} placeholder="Description" />
+                </div>
+                <div>
+                    <label>Img:</label>
+                    <input type="text" name="img" value={img} onChange={handleChange} placeholder="Url/img..." />
+                </div>
+                <div>
+                    <label>Release Date:</label>
+                    <input type="date" name="releaseDate" value={releaseDate} onChange={handleChange} placeholder="Release Date" />
+                </div>
+                <div>
+                    <label>Rating:</label>
+                    <input type="number" name="rating" value={rating} onChange={handleChange} placeholder="Rating" />
+                </div>
+
+                {/* platforms && genres part */}
+                <div>
+                    <h4>Platforms:</h4>
+                    {stateP.map((e) => {
+                        return (
+                            <div key={e.ID}>
+                                <input
+                                    type='checkbox'
+                                    name='platforms'
+                                    value={e.ID}
+                                    onChange={(e) => { handleChange(e) }}
+                                />
+                                <label name={e}>{e.name}</label>
+                            </div>
+                        )
+                    })}
+                </div>
+
+                <div>
+                    <h4>Genres:</h4>
+                    {stateG.map((e) => {
+                        return (
+                            <div key={e.ID}>
+                                <input
+                                    type='checkbox'
+                                    name='genres'
+                                    value={e.ID}
+                                    onChange={(e) => { handleChange(e) }}
+                                />
+                                <label name={e}>{e.name}</label>
+                            </div>
+                        )
+                    })}
+                </div>
+                {/* now, when you click, the information most go... */}
+                <input onClick={handleSubmit} type="submit" value="Agregar" className="btn btn-primary mb-2" />
+            </form>
+            <button><Link to="/videogames">Home</Link> </button>
+        </div >
+    );
+
+}; // hasta aquii
 

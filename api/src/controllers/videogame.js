@@ -1,7 +1,10 @@
 require("dotenv").config();
 const axios = require("axios");
-const { Videogame, Genre, Platform } = require('../db');  
+const { Videogame, Genre, Platform } = require('../db');
 let { ONEHUNDRED } = require('./videogames')
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op; // no se si aqui va
+
 const BASE_URL = process.env.BASE_URL
 const API_KEY = process.env.API_KEY
 // Los campos mostrados en la ruta principal para cada videojuegos (imagen, nombre, y géneros)
@@ -47,7 +50,7 @@ const getGamebyId = async (req, res, _next) => {
 //  Fecha de lanzamiento
 //  Rating
 const addGame = async (req, res, _next) => {
-    const { name, description, img, releaseDate, rating, platforms, genres } = req.body
+    const { name, description, img, releaseDate, rating, platforms, genres } = req.body // psslsnd  // un id
     try {
         let exists = await Videogame.findOne({ where: { name: name }, include: Genre })
         if (exists) return res.send('That videogame already exists, try adding another!')
@@ -56,25 +59,64 @@ const addGame = async (req, res, _next) => {
             description: description,
             img: img,
             releaseDate: releaseDate,
-            rating: rating,
+            rating: parseInt(rating),
         })
-        let g = genres.map(e => {
-            return { name: e };
+
+        const Platforms = await Platform.findAll({ // [{},{}]
+            where: {
+                ID: {
+                    [Op.in]: platforms
+                }
+            }
         })
-        let p = platforms.map(e => {
-            return { name: e };
+        await newGame.setPlatforms(Platforms);
+
+        const Genres = await Genre.findAll({
+            where: {
+                ID: {
+                    [Op.in]: genres
+                }
+            }
         })
-        var newGenres = await Genre.bulkCreate(g)
-        var newPlatform = await Platform.bulkCreate(p)
-        await newGame.setGenres(newGenres);
-        await newGame.setPlatforms(newPlatform);
+        await newGame.setGenres(Genres);
+
         let game = await Videogame.findOne({ where: { name: name }, include: [Platform, Genre] })
         return res.json(game)
     }
     catch (err) {
-        next(err)
+        console.log(err, 'aquii');
     }
 };
+
+// const addGame = async (req, res, _next) => {
+//     const { name, description, img, releaseDate, rating, platforms, genres } = req.body // psslsnd  // un id
+//     try {
+//         let exists = await Videogame.findOne({ where: { name: name }, include: Genre })
+//         if (exists) return res.send('That videogame already exists, try adding another!')
+//         const newGame = await Videogame.create({
+//             name: name,
+//             description: description,
+//             img: img,
+//             releaseDate: releaseDate,
+//             rating: parseInt(rating),
+//         })
+//         let g = genres.map(e => {
+//             return { name: e };
+//         })
+//         let p = platforms.map(e => {
+//             return { name: e };
+//         })
+//         var newGenres = await Genre.bulkCreate(g)
+//         var newPlatform = await Platform.bulkCreate(p)
+//         await newGame.setGenres(newGenres);
+//         await newGame.setPlatforms(newPlatform);
+//         let game = await Videogame.findOne({ where: { name: name }, include: [Platform, Genre] })
+//         return res.json(game)
+//     }
+//     catch (err) {
+//         next(err)
+//     }
+// };
 
 module.exports = {
     getGamebyId,

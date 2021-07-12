@@ -1,13 +1,12 @@
 import React from 'react'
-// import styles from './Game.modules.css'
+import style from './Game.module.css'
 
 export default function Game({ id, img, name, genres, rating }) {
     return (
-        <div >
-            <img src={img} alt={id} width="200px" />
-            <h2>{name}</h2>
-            <h3>{genres.join(', ')}</h3>
-            <h4>{rating}</h4>
+        <div className={style.card}>
+            <h2 className={style.title}>{name}</h2>
+            <img src={img} alt={id} className={style.image} />
+            <h4>{genres.join(', ')}</h4>
         </div>
     );
 };

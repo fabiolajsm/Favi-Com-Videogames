@@ -1,9 +1,10 @@
-import { GET_VIDEOGAMES, GET_VIDEOGAME_DETAIL, GET_BY_NAME, ADD_GAME, GET_GENRES } from '../actions/constants';
+import { GET_VIDEOGAMES, GET_VIDEOGAME_DETAIL, GET_BY_NAME, ADD_GAME, GET_GENRES, GET_PLATFORMS } from '../actions/constants';
 
 const initialState = {
     videogames: [],
     detail: {},
-    genres: []
+    genres: [],
+    platforms: []
 };
 
 function rootReducer(state = initialState, action) {
@@ -32,6 +33,11 @@ function rootReducer(state = initialState, action) {
             return {
                 ...state,
                 genres: action.payload
+            }
+        case GET_PLATFORMS:
+            return {
+                ...state,
+                platforms: action.payload
             }
         default:
             return state;
