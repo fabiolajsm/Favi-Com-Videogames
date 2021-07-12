@@ -11,7 +11,7 @@ export const getByName = (name) => {
     return (dispatch) => {
         return axios.get(`http://localhost:3001/videogames?name=${name}`)
             .then(videogames => {
-                // console.log(videogames.data, 'videogameeeeeeeessssssssss');
+                if (videogames.data === "Sorry! I dont have that videogame") return alert(`that videogame doesn't exist, try another!`)
                 dispatch(games(videogames.data))
             })
     }

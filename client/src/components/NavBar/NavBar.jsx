@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { getByName } from '../../actions/getByName' 
+import { useDispatch } from 'react-redux'; //useSelector
+import { getByName } from '../../actions/getByName'
 import { Link } from 'react-router-dom';
 import styles from './NavBar.modules.css'
 
 export default function NavBar() {
+  // const storeState = useSelector(state => state.videogames)
+  // console.log(storeState, 'state storeeeeeeee');
+  // console.log(storeState.status, 'state storeeeeeeee');
+
   const [name, setName] = useState('')
   const dispatch = useDispatch()
 
   function handleChange(event) {
-    setName(event.target.value); 
+    setName(event.target.value);
   }
   function handleSubmit(event) {
-    // console.log(event, 'eventeeeeeeeeeeee'); // falta vaciar el input cuando le dan click
+    // console.log(event, 'eventeeeeeeeeeeee'); 
     // console.log(name, 'nameeeeeeeeeeeeeeeeeeee'); 
     event.preventDefault();
     dispatch(getByName(name));
+    setName('')
   }
   return (
     <div className={styles.container}>

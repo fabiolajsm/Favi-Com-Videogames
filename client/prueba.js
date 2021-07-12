@@ -82,84 +82,172 @@
 // import { Link } from 'react-router-dom';
 // import addGame from '../../actions/addGame'
 
-// export default function CreateGame() {
+// como me servia antes todos los videogames:
+// import React, { useState } from 'react';
+// import { Link } from 'react-router-dom';
+// import { useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { getAllGames } from '../../actions/getVideogames';
+// import Game from '../Game/Game'
+// import NavBar from '../NavBar/NavBar';
+// import style from '../Videogames/Videogames.module.css'
+
+// export default function Videogames() {
+//     const state = useSelector(state => state.videogames)
 //     const dispatch = useDispatch()
+//     const [currentPage, setCurrentPage] = useState(0);
+
 //     useEffect(() => {
-//         dispatch(addGame(postGame))
-//     }, []);
-//     const [input, setInput] = useState({ name: '', description: '', img: '', releaseDate: '', rating: '', });
-//     const [genres, setGenres] = useState([])
-//     const [platforms, setPlatforms] = useState([])
+//         dispatch(getAllGames())
+//     }, [dispatch]); // here the 'dispatch' for the warning
 
-//     let postGame = {  // lo que le voy a pasar al addNewGame
-//         name: input.name,
-//         description: input.description,
-//         img: input.img,
-//         rating: input.rating,
-//         releaseDate: input.released,
-//         platforms: platforms,
-//         genres: genres
-//     }
-
-//     function handleSubmit(e) {
-//         e.preventDefault();
-//         dispatch(addGame(postGame))
-//     }
-
-//     function handleInputChange(e) {
-//         setInput({ ...input, [e.target.name]: e.target.value });
-//     }
-
-//     function handlePlatforms(e) {
-//         console.log(e.name, 'valueeeeeeeeeeeeee platformssss');
-//         let platforms = [];
-//         platforms.push(e.value)
-//         setPlatforms(platforms)
-//     }
-
-//     function handleGenres(e) {
-//         console.log(e.value, 'valueeeeeeeeeeeeee genre');
-//         let genres = [];
-//         genres.push(e.value)
-//         setGenres(genres)
-//     }
+//     const gamesLength = state.slice(currentPage, currentPage + 15)
+//     // const prevPage = () => { currentPage < 14 ? setCurrentPage(0) : setCurrentPage(currentPage - 15) }
+//     // const nextPage = () => { state.length < currentPage + 15 ? setCurrentPage(currentPage) : setCurrentPage(currentPage + 15) }
 
 //     return (
 //         <div>
-//             <form onSubmit={(e) => handleSubmit(e)}>
-//                 <div>
-//                     <label>Name:</label>
-//                     <input type="text" name="name" value={input.name} onChange={handleInputChange} placeholder="Name" />
-//                 </div>
-//                 <div>
-//                     <label>Description:</label>
-//                     <input type="text" name="description" value={input.description} onChange={handleInputChange} placeholder="Description" />
-//                 </div>
-//                 <div>
-//                     <label>Img:</label>
-//                     <input type="text" name="img" value={input.img} onChange={handleInputChange} placeholder="Url/img..." />
-//                 </div>
-//                 <div>
-//                     <label>Release Date:</label>
-//                     <input type="number" name="releaseDate" value={input.releaseDate} onChange={handleInputChange} placeholder="Release Date" />
-//                 </div>
-//                 <div>
-//                     <label>Rating:</label>
-//                     <input type="number" name="rating" value={input.rating} onChange={handleInputChange} placeholder="Rating" />
-//                 </div>
-//                 <div>
-//                     <label>Platforms:</label>
-//                     <input type="text" name="platforms" value={input.platforms} onChange={handlePlatforms} placeholder="Platforms:" />
-//                 </div>
-//                 <div>
-//                     <label>Genres:</label>
-//                     <input type="text" name="genres" value={input.genres} onChange={handleGenres} placeholder="Genres:" />
-//                 </div>
-//                 <input type="submit" value="Agregar" className="btn btn-primary mb-2" />
-//             </form>
-//             <button><Link to="/videogames">Home</Link> </button>
+//             {
+//                 state.length > 0 && typeof state[0] == "object" ?
+//                     (
+//                         <div>
+
+//                             <NavBar />
+//                             {/* part of filter by and order by */}
+//                             <h2>Filter by:</h2>
+//                             <select name="genero">
+//                                 <option value="value1">Value 1</option>
+//                                 <option value="value2">Value 2</option>
+//                                 <option value="value3">Value 3</option>
+//                             </select>
+//                             <select name="Videogame">
+//                                 <option value="Existente">Existente</option>
+//                                 <option value="Creado">Creado</option>
+//                             </select>
+//                             <h2>Order by:</h2>
+//                             <select name="Videogame" >
+//                                 <option value="Ascendente">Ascendente</option>
+//                                 <option value="Descendente">Descendente</option>
+//                                 <option value="Alfabeticamente">Alfabeticamente </option>
+//                                 <option value="Rating">Rating</option>
+//                             </select>
+
+//                             {/* here is when I render the component Game */}
+//                             <div className={style.container}>
+//                                 {state && state.map(vg => {
+//                                     return <div key={vg.id} >
+//                                         <Link to={`/videogame/${vg.id}`}>
+//                                             <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
+//                                         </Link>
+//                                     </div>
+//                                 })}
+//                             </div>
+
+//                         </div>
+
+//                         //  attempt 1/ pagination
+            
+             
+
+
+
+
+
+
+
+
+
+//                     )
+//                     // else:
+//                     : (<div>
+//                         {/* put styles here! */}
+//                         <h1>Loading...</h1>
+//                     </div>)
+
+//             }
 //         </div>
-//     );
+//     )
+// }
 
-// }; // hasta aquii
 
+// import React, { useState } from 'react';
+// import { Link } from 'react-router-dom';
+// import { useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { getAllGames } from '../../actions/getVideogames';
+// import Game from '../Game/Game'
+// import NavBar from '../NavBar/NavBar';
+// import style from '../Videogames/Videogames.module.css'
+
+// export default function Videogames() {
+//     const state = useSelector(state => state.videogames)
+//     const dispatch = useDispatch()
+//     const [currentPage, setCurrentPage] = useState(0);
+
+//     useEffect(() => {
+//         dispatch(getAllGames())
+//     }, [dispatch]); // here the 'dispatch' for the warning
+
+//     const showGames = state.slice(currentPage, currentPage + 15)  // length = 15
+//     const prevPage = () => { currentPage <= 15 ? setCurrentPage(0) : setCurrentPage(currentPage - 15) } // 
+//     const nextPage = () => { state.length < currentPage + 15 ? setCurrentPage(currentPage) : setCurrentPage(currentPage + 15) }
+
+//     return (
+//         <div>
+//             {
+//                 showGames.length > 0 && typeof showGames[0] == "object" ?
+//                     (
+//                         <div>
+
+//                             <NavBar />
+//                             {/* part of filter by and order by */}
+//                             <h2>Filter by:</h2>
+//                             <select name="genero">
+//                                 <option value="value1">Value 1</option>
+//                                 <option value="value2">Value 2</option>
+//                                 <option value="value3">Value 3</option>
+//                             </select>
+//                             <select name="Videogame">
+//                                 <option value="Existente">Existente</option>
+//                                 <option value="Creado">Creado</option>
+//                             </select>
+//                             <h2>Order by:</h2>
+//                             <select name="Videogame" >
+//                                 <option value="Ascendente">Ascendente</option>
+//                                 <option value="Descendente">Descendente</option>
+//                                 <option value="Alfabeticamente">Alfabeticamente </option>
+//                                 <option value="Rating">Rating</option>
+//                             </select>
+
+//                             {/* here is when I render the component Game */}
+//                             <div className={style.container}>
+//                                 {showGames && showGames.map(vg => {
+//                                     return <div key={vg.id} >
+//                                         <Link to={`/videogame/${vg.id}`}>
+//                                             <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
+//                                         </Link>
+//                                     </div>
+//                                 })}
+//                             </div>
+
+//                             {/* attempt 1/ pagination */}
+
+//                             {showGames.length > 10 ? <div>
+//                                 {currentPage !== 0 ? <button onClick={prevPage}>{'...back 🚀'}</button> : <div></div>} {/*this for prev page */}
+//                                 {currentPage !== 90 ? <button onClick={nextPage}>{'next...✨'}</button> : <div></div>} {/*this for next page */}
+//                             </div> : <div></div>}
+
+
+//                         </div> // this is the final finaaaaaaal div!
+
+//                     )
+//                     // else:
+//                     : (<div>
+//                         {/* put styles here! */}
+//                         <h1>Loading...</h1>
+//                     </div>)
+
+//             }
+//         </div>
+//     )
+// }

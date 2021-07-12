@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,16 +10,25 @@ import style from '../Videogames/Videogames.module.css'
 export default function Videogames() {
     const state = useSelector(state => state.videogames)
     const dispatch = useDispatch()
+    const [page, setPage] = useState(0);
+
     useEffect(() => {
         dispatch(getAllGames())
     }, [dispatch]); // here the 'dispatch' for the warning
+
+    const showGames = state.slice(page, page + 15)  // length = 15
+    const prevPage = () => { page <= 15 ? setPage(0) : setPage(page - 15) } // 
+    const nextPage = () => { state.length < page + 15 ? setPage(page) : setPage(page + 15) }
+
     return (
         <div>
             {
-                state && state.length > 0 ?
+                showGames.length > 0 && typeof showGames[0] == "object" ?
                     (
                         <div>
                             <NavBar />
+
+                            {/* Filter by: */}
                             <h2>Filter by:</h2>
                             <select name="genero">
                                 <option value="value1">Value 1</option>
@@ -30,33 +39,46 @@ export default function Videogames() {
                                 <option value="Existente">Existente</option>
                                 <option value="Creado">Creado</option>
                             </select>
-                            <h2>Order by:</h2>
+
+
+
+
+
+                            {/* Order by: */}
+                            {/* <h2>Order by:</h2>   // later, when i have the filter!
                             <select name="Videogame" >
                                 <option value="Ascendente">Ascendente</option>
                                 <option value="Descendente">Descendente</option>
                                 <option value="Alfabeticamente">Alfabeticamente </option>
                                 <option value="Rating">Rating</option>
-                            </select>
+                            </select> */}
+
+                            {/* here is when I render the component Game */}
                             <div className={style.container}>
-                                {state && state.map(vg => {
+                                {showGames && showGames.map(vg => {
                                     return <div key={vg.id} >
                                         <Link to={`/videogame/${vg.id}`}>
-                                            <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} rating={vg.rating} />
+                                            <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
                                         </Link>
                                     </div>
                                 })}
                             </div>
-                            <div>
-                                <Link to='/videogames'>Press to start</Link>
-                            </div>
-                        </div>
+
+                            {/* pagination: */}
+                            {showGames.length > 10 ? <div>
+                                {page !== 0 ? <button onClick={prevPage}>{'prev page'}</button> : <div></div>} {/*this for prev page */}
+                                {page !== 90 ? <button onClick={nextPage}>{'...next page'}</button> : <div></div>} {/*this for next page */}
+                            </div> : <div></div>}
+
+                        </div> // this is the final finaaaaaaal div!
                     )
+                    // else:
                     : (<div>
+                        {/* put styles here! */}
                         <h1>Loading...</h1>
                     </div>)
 
             }
-
         </div>
     )
 }

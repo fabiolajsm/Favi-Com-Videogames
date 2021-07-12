@@ -9,7 +9,7 @@ export default function CreateGame() {
 
     useEffect(() => {
         dispatch(getPlatforms())
-    }, [])
+    }, []) // missing dependency?
 
     useEffect(() => {
         dispatch(getGenres())

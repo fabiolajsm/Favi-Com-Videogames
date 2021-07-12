@@ -46,7 +46,8 @@ const getGames = async (req, res) => {
         let has = false
         await allResults.forEach(e => e.name.toLowerCase().includes(name.toLowerCase()) ? has = true : has);
         if (!has) {
-            return res.status(404).send('Sorry! I dont have that videogame')
+            // return res.status(404).send('Sorry! I dont have that videogame')
+            return res.send('Sorry! I dont have that videogame')
         }
         else {
             let filter = allResults.filter(e => e.name.toLowerCase().includes(name.toLowerCase())).slice(0, 16);

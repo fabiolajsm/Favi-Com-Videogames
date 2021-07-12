@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './Game.module.css'
 
-export default function Game({ id, img, name, genres, rating }) {
+export default function Game({ id, img, name, genres }) {
     return (
         <div className={style.card}>
             <h2 className={style.title}>{name}</h2>
