@@ -13,6 +13,7 @@ const ONEHUNDRED = async function () { // refactorear!! no hacer 5 llamadas a la
     let dataAPI = await [...r1.data.results, ...r2.data.results, ...r3.data.results, ...r4.data.results, ...r5.data.results];
     dataAPI = await dataAPI && dataAPI.map(game => ({
         id: game.id,
+        created: false,
         name: game.name,
         description: game.description || '',
         img: game.background_image,
@@ -24,6 +25,7 @@ const ONEHUNDRED = async function () { // refactorear!! no hacer 5 llamadas a la
     let dataDB = await Videogame.findAll({ include: [Genre, Platform] });
     let myData = await dataDB && dataDB.map(game => ({
         id: game.ID,
+        created: game.created || true,
         name: game.name,
         description: game.description || '',
         img: game.img,
