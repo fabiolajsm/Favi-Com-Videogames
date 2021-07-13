@@ -14,10 +14,13 @@ export default function Videogames() {
 
     useEffect(() => {
         dispatch(getAllGames())
+        return () => {
+            dispatch(getAllGames())
+        }
     }, [dispatch]); // here the 'dispatch' for the warning
 
-    const showGames = state.slice(page, page + 15)  // length = 15
-    const prevPage = () => { page <= 15 ? setPage(0) : setPage(page - 15) } // 
+    const showGames = state && state.slice(page, page + 15)  // length = 15
+    const prevPage = () => { page <= 15 ? setPage(0) : setPage(page - 15) } // set one and then reset 
     const nextPage = () => { state.length < page + 15 ? setPage(page) : setPage(page + 15) }
 
     return (
