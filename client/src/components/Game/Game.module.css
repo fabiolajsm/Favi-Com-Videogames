@@ -4,20 +4,20 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    background-color: #d7e3fc3b;
+    background-color: rgba(0, 0, 0);
     /* #d7e3fc */
     height: 350px;
     width: 350px;
     text-decoration: none;
     border-radius: 10px;
     color: #d7e3fc;
-    box-shadow: 0px 3px #d7e3fc;
+    border: solid 1px #17183b;
+    box-shadow: 0px 1px #d7e3fc;
     transition: 200ms;
 }
 
 .card:hover {
-    background-color: rgba(0, 0, 0);
-    border: solid 1px #17183b;
+    background-color:  #d7e3fc3b;
     color: #d7e3fc;
     box-shadow: none;
 }
@@ -44,8 +44,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 3%;
-    border-bottom: outset;
+    border-radius: 1%;
+    /* border-bottom: outset; */
 }
 
 .genresDiv {

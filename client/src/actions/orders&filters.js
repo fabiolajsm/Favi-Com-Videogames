@@ -6,4 +6,4 @@ export function orderBy(params) {
 
 export function filterBy(params) {
     return { type: FILTER_BY, payload: params }
-};
+}; // quiza poner las funciones aqui!

@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllGames } from '../../actions/getVideogames';
-import { orderBy, filterBy } from '../../actions/orders&filters'
+import { orderBy } from '../../actions/orders&filters'
 import Game from '../Game/Game'
 import NavBar from '../NavBar/NavBar';
 import style from '../Videogames/Videogames.module.css'
 
 export default function Videogames() {
     const state = useSelector(state => state.videogames) /// este es mi state de todos los videojuegos
-
+    const [filterBy, setFilterBy] = useState('');
+    console.log(filterBy, 'aquiiiiiiiiiiiiiii soy filterByyy');
     const dispatch = useDispatch()
     const [page, setPage] = useState(0);
 
@@ -37,72 +38,110 @@ export default function Videogames() {
         }
     }
 
-    const handleCreated = (e) => {
-        // console.log(e.target.value, 'aquiiiii');
-        switch (e.target.value) {
-            case "By you": dispatch(filterBy(vg => vg.created !== false)); break 
-            case "By Favi-Com": dispatch(filterBy(vg => vg.description === "")); break
-            default: break
-        }
+    const ByYou = ({ showGames }) => {
+        return (showGames && showGames.map(vg => {
+            if (vg.created === true) {
+                return <div key={vg.id} >
+                    <Link to={`/videogame/${vg.id}`}>
+                        <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
+                    </Link>
+                </div>
+            }
+        }))
     }
+
+    const ByFavs = ({ showGames }) => {
+        return (showGames && showGames.map(vg => {
+            if (vg.created === false) {
+                return <div key={vg.id} >
+                    <Link to={`/videogame/${vg.id}`}>
+                        <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
+                    </Link>
+                </div>
+            }
+        }))
+    }
+
+    const DefaultGames = ({ showGames }) => {
+        return (showGames && showGames.map(vg => {
+            return <div key={vg.id} >
+                <Link to={`/videogame/${vg.id}`}>
+                    <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
+                </Link>
+            </div>
+        }))
+    }
+
+    const handleCreated = (e) => { setFilterBy(e.target.value) }
+
+    const filtersCreated = (filterBy) => {
+        switch (filterBy) {
+            case "By you": return (<ByYou showGames={showGames} />); break
+            case "By Favi-Com": return (<ByFavs showGames={showGames} />); break
+            default: return (<DefaultGames showGames={showGames} />)
+        }
+    };
+
+    if (showGames.length === 0 && typeof showGames[0] !== "object") return <div>Loading...</div>
 
     return (
         <div>
-            {
 
-                showGames.length > 0 && typeof showGames[0] == "object" ?
-                    (
-                        <div>
-                            <NavBar />
 
-                            {/* Filter by: */}
-                            {<form >
-                                <label>Filter by Created:</label>
-                                <select name="Created" onChange={handleCreated} >
-                                    <option value="By Favi-Com">By Favi-Com</option>
-                                    <option value="By you">By you</option>
-                                </select>
-                            </form>}
+            <div>
+                <NavBar />
+                {/* Filter by: */}
+                {
+                    <div>
+                        <form >
+                            <label>Filter by Created:</label>
+                            <select name="Created" onChange={handleCreated} >
+                                <option value="">All</option>
+                                <option value="By Favi-Com">By Favi-Com</option>
+                                <option value="By you">By you</option>
+                            </select>
+                        </form>
 
-                            {/* Order by: */}
-                            {<form >
-                                <label>Order by:</label>
-                                <select name="Order" onChange={handleOrder} >
-                                    <option value="Ascendant">Ascendant</option>
-                                    <option value="Descendant">Descendant</option>
-                                    <option value="A-Z">Alphabetically A-Z</option>
-                                    <option value="Z-A">Alphabetically Z-A</option>
-                                    <option value="Higher">Higher Rating </option>
-                                    <option value="Lower">Lower Rating</option>
-                                </select>
-                            </form>}
+                        {/* <form >
+                            <label>Filter by Genres:</label>
+                            <select name="Created" onChange={handleCreated} >
+                                <option value="By Favi-Com">By Favi-Com</option>
+                                <option value="By you">By you</option>
+                            </select>
+                        </form> */}
 
-                            {/* here is when I render the component Game */}
-                            <div className={style.container}>
-                                {showGames && showGames.map(vg => {
-                                    return <div key={vg.id} >
-                                        <Link to={`/videogame/${vg.id}`}>
-                                            <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
-                                        </Link>
-                                    </div>
-                                })}
-                            </div>
+                    </div>
+                }
 
-                            {/* pagination: */}
-                            {showGames.length > 10 ? <div>
-                                {page !== 0 ? <button onClick={prevPage}>{'prev page'}</button> : <div></div>} {/*this for prev page */}
-                                {page !== 90 ? <button onClick={nextPage}>{'...next page'}</button> : <div></div>} {/*this for next page */}
-                            </div> : <div></div>}
+                {/* Order by: */}
+                {<form >
+                    <label>Order by:</label>
+                    <select name="Order" onChange={handleOrder} >
+                        <option value="Ascendant">Ascendant</option>
+                        <option value="Descendant">Descendant</option>
+                        <option value="A-Z">Alphabetically A-Z</option>
+                        <option value="Z-A">Alphabetically Z-A</option>
+                        <option value="Higher">Higher Rating </option>
+                        <option value="Lower">Lower Rating</option>
+                    </select>
+                </form>}
 
-                        </div> // this is the final finaaaaaaal div!
-                    )
-                    // else:
-                    : (<div>
-                        {/* put styles here! */}
-                        <h1>Loading...</h1>
-                    </div>)
+                {/* here is when I render the component Game */}
+                <div className={style.container}>
+                    {
+                        filtersCreated(filterBy)
+                    }
+                </div>
 
-            }
+                {/* pagination: */}
+                {showGames.length > 10 ? <div>
+                    {page !== 0 ? <button onClick={prevPage}>{'prev page'}</button> : <div></div>} {/*this for prev page */}
+                    {page !== 90 ? <button onClick={nextPage}>{'...next page'}</button> : <div></div>} {/*this for next page */}
+                </div> : <div></div>}
+
+            </div>
+
+
         </div>
     )
 }
