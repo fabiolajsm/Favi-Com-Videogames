@@ -1,10 +1,11 @@
-import { GET_VIDEOGAMES, GET_VIDEOGAME_DETAIL, GET_BY_NAME, ADD_GAME, GET_GENRES, GET_PLATFORMS, ORDER_BY } from '../actions/constants';
+import { GET_VIDEOGAMES, GET_VIDEOGAME_DETAIL, GET_BY_NAME, ADD_GAME, GET_GENRES, GET_PLATFORMS, ORDER_BY, PAGINATE } from '../actions/constants';
 
 const initialState = {
     videogames: [],
     videogame: {},
     detail: {},
     genres: [],
+    paginateGames: [], // los vg de pantalla
     platforms: []
 };
 
@@ -14,6 +15,7 @@ function rootReducer(state = initialState, action) {
             return {
                 ...state,
                 videogames: action.payload,
+                paginateGames: action.payload.slice(0, 15)
             };
         case GET_VIDEOGAME_DETAIL:
             return {
@@ -44,6 +46,11 @@ function rootReducer(state = initialState, action) {
             return {
                 ...state,
                 videogames: [...state.videogames].sort(action.payload)
+            }
+        case PAGINATE:
+            return {
+                ...state,
+                paginateGames: action.payload
             }
         default:
             return state;
