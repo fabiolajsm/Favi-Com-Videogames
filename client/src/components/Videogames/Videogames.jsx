@@ -3,149 +3,64 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllGames } from '../../actions/getVideogames';
-import { orderBy } from '../../actions/orders&filters'
 import Game from '../Game/Game'
 import NavBar from '../NavBar/NavBar';
 import style from '../Videogames/Videogames.module.css'
 import getGenres from '../../actions/getGenres';
-import Paginate from '../Paginate/Paginate'
+import Orderby from '../Orders/Orders';
+import FilterOptions from '../Filters/Filters';
+import { filterByGenres } from '../../actions/orders&filters';
 
 export default function Videogames() {
-    const state = useSelector(state => state.paginateGames)
+    const showGames = useSelector(state => state.filtered)
+    const state = useSelector(state => state.videogames)
     const genresState = useSelector(state => state.genres)
     const dispatch = useDispatch()
-
-    const [filterBy, setFilterBy] = useState('');
-    const [filterByGenres, setFilterByGenres] = useState('All');
-    const [page, setPage] = useState(0); // del 1er paginado 
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
         dispatch(getAllGames())
         dispatch(getGenres())
-        return () => { // tenia que ver con el search por eso esta 2 veces el return!
+        return () => {
             dispatch(getAllGames())
         }
-    }, [dispatch]); /// se monta y se llena el estado de los vg ^^^^^^
+    }, [dispatch]);
 
-    const showGames = state && state.slice(page, page + 15)  // length = 15
-    const prevPage = () => { page <= 15 ? setPage(0) : setPage(page - 15) } // set one and then reset 
-    const nextPage = () => { state.length < page + 15 ? setPage(page) : setPage(page + 15) }
+    const handleGenres = (e) => { dispatch(filterByGenres(state, e.target.value)) };
 
-    // Order by: 
-    const handleOrder = (e) => {
-        switch (e.target.value) {
-            case "Ascendant": dispatch(orderBy((a, b) => b.name.length - a.name.length)); break
-            case "Descendant": dispatch(orderBy((a, b) => a.name.length - b.name.length)); break
-            case "A-Z": dispatch(orderBy((a, b) => { return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1 })); break
-            case "Z-A": dispatch(orderBy((a, b) => { return b.name.toUpperCase() < a.name.toUpperCase() ? -1 : 1 })); break
-            case "Higher": dispatch(orderBy((a, b) => b.rating - a.rating)); break
-            case "Lower": dispatch(orderBy((a, b) => a.rating - b.rating)); break
-            default: break
+    const handlePage = (e) => {
+        if (e.target.name === "next") {
+            if (page === Math.ceil(showGames.length / 15))
+                return alert(`There are no more pages`);
+            setPage(page + 1);
         }
-    }; // this one change the store
-
-    // Filters:
-    const handleCreated = (e) => { setFilterBy(e.target.value) }
-    const handleGenres = (e) => { setFilterByGenres(e.target.value) }
-
-    const ByYou = ({ showGames }) => {
-        return (showGames && showGames.map(vg => {
-            if (filterByGenres !== 'All') {
-                if (vg.created === true && vg.genres.includes(filterByGenres)) {
-                    return <div key={vg.id} >
-                        <Link to={`/videogame/${vg.id}`}>
-                            <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
-                        </Link>
-                    </div>
-                }
-                return <div>{`Sorry! we don't have a game with that genre`}</div>
-            }
-            else if (filterByGenres === 'All') {
-                if (vg.created === true) {
-                    return <div key={vg.id} >
-                        <Link to={`/videogame/${vg.id}`}>
-                            <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
-                        </Link>
-                    </div>
-                }
-            }
-            return console.log('Created by you');
-        }))
-    };
-
-    const ByFavs = ({ showGames }) => {
-        return (showGames && showGames.map(vg => {
-            if (filterByGenres !== 'All') {
-                if (vg.created === false && vg.genres.includes(filterByGenres)) {
-                    return <div key={vg.id} >
-                        <Link to={`/videogame/${vg.id}`}>
-                            <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
-                        </Link>
-                    </div>
-                }
-            }
-            else if (filterByGenres === 'All') {
-                if (vg.created === false) {
-                    return <div key={vg.id} >
-                        <Link to={`/videogame/${vg.id}`}>
-                            <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
-                        </Link>
-                    </div>
-                }
-            }
-            return console.log('Created by Favi-Com');
-        }))
-    };
-
-    const DefaultGames = ({ showGames }) => {
-        return (showGames && showGames.map(vg => {
-            return <div key={vg.id} >
-                <Link to={`/videogame/${vg.id}`}>
-                    <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
-                </Link>
-            </div>
-        }))
-    };
-
-    const filtersCreated = (filterBy) => {
-        switch (filterBy) {
-            case "By you": return (<ByYou showGames={showGames} />);
-            case "By Favi-Com": return (<ByFavs showGames={showGames} />);
-            default: return (<DefaultGames showGames={showGames} />)
+        else {
+            if (page === 1) return alert(`There are no more previus pages`);
+            setPage(page - 1);
         }
     };
 
-    // Component:
-    if (showGames.length === 0 && typeof showGames[0] !== "object") return <div>Loading...</div>
+    const paginate = (showGames, page) => {
+        if (showGames.length < 15 && showGames.length !== 0) {
+            return showGames;
+        }
+        else {
+            const offset = page * 15;
+            const initial = offset - 15;
+            window.scrollTo(0, 0)
+            return showGames.slice(initial, offset);
+        }
+    };
 
+    // if (showGames.length === 0 && typeof showGames[0] !== "object") return <div>Loading...</div>
     return (
-        <div>
+        <div className={showGames.length > 0 ? style.back1 : style.back2}>
             <div>
                 <NavBar />
-                {/* Order by: */}
-                {<form >
-                    <label>Order by:</label>
-                    <select name="Order" onChange={handleOrder} >
-                        <option value="Ascendant">Ascendant</option>
-                        <option value="Descendant">Descendant</option>
-                        <option value="A-Z">Alphabetically A-Z</option>
-                        <option value="Z-A">Alphabetically Z-A</option>
-                        <option value="Higher">Higher Rating </option>
-                        <option value="Lower">Lower Rating</option>
-                    </select>
-                </form>}
-                {/* Filter by: */}
+                <Orderby />
+                <FilterOptions />
                 {
                     <div>
-                        <form >
-                            <label>Filter by Created:</label>
-                            <select name="Created" onChange={handleCreated} >
-                                <option value="">All</option>
-                                <option value="By Favi-Com">By Favi-Com</option>
-                                <option value="By you">By you</option>
-                            </select>
-                        </form>
-
                         <form >
                             <label>Filter by Genres:</label>
                             <select name="Genres" onChange={handleGenres} >
@@ -157,17 +72,35 @@ export default function Videogames() {
                         </form>
                     </div>
                 }
-                {/* Render component Game: */}
+
                 <div className={style.container}>
-                    {filtersCreated(filterBy)}
+                    {
+                        showGames.length > 0 && paginate(showGames, page).map(vg => {
+                            return <div key={vg.id}>
+                                <Link to={`/videogame/${vg.id}`}>
+                                    <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
+                                </Link>
+                            </div>
+                        })
+                    }
                 </div>
-                {/* pagination: */}
-                {showGames.length > 10 ? <div>
-                    {page !== 0 ? <button onClick={prevPage}>{'prev page'}</button> : <div></div>} {/*this for prev page */}
-                    {page !== 90 ? <button onClick={nextPage}>{'...next page'}</button> : <div></div>} {/*this for next page */}
-                </div> : <div></div>}
-                <Paginate/>
+
+                {
+                    showGames && showGames.length > 0 ? <div > {/* className={s.btnCont} */}
+                        {/* className={s.btnPage}
+className={s.btnPage} */}
+                        <button onClick={(e) => handlePage(e)} name="prev">
+                            prev
+                        </button>
+                        {/* className={s.PageN} */}
+                        <p>{page}</p>
+                        <button onClick={(e) => handlePage(e)} name="next">
+                            next
+                        </button>
+                    </div> : null
+                }
+
             </div>
-        </div> // last div!
+        </div>
     )
 }

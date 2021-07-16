@@ -1,11 +1,11 @@
-import { GET_VIDEOGAMES, GET_VIDEOGAME_DETAIL, GET_BY_NAME, ADD_GAME, GET_GENRES, GET_PLATFORMS, ORDER_BY, PAGINATE } from '../actions/constants';
+import { GET_VIDEOGAMES, GET_VIDEOGAME_DETAIL, GET_BY_NAME, ADD_GAME, GET_GENRES, GET_PLATFORMS, ORDER_BY, FILTER_BY, FILTER_BY_GENRE } from '../actions/constants';
 
 const initialState = {
     videogames: [],
     videogame: {},
     detail: {},
     genres: [],
-    paginateGames: [], // los vg de pantalla
+    filtered: [],
     platforms: []
 };
 
@@ -15,7 +15,7 @@ function rootReducer(state = initialState, action) {
             return {
                 ...state,
                 videogames: action.payload,
-                paginateGames: action.payload.slice(0, 15)
+                filtered: action.payload
             };
         case GET_VIDEOGAME_DETAIL:
             return {
@@ -25,7 +25,8 @@ function rootReducer(state = initialState, action) {
         case GET_BY_NAME:
             return {
                 ...state,
-                videogames: action.payload
+                videogames: action.payload, // capaz aqui no
+                filtered: action.payload
             };
         case ADD_GAME:
             return {
@@ -45,12 +46,19 @@ function rootReducer(state = initialState, action) {
         case ORDER_BY:
             return {
                 ...state,
-                videogames: [...state.videogames].sort(action.payload)
+                videogames: [...state.videogames].sort(action.payload),
+                filtered: [...state.filtered].sort(action.payload)
             }
-        case PAGINATE:
+        case FILTER_BY_GENRE:
             return {
                 ...state,
-                paginateGames: action.payload
+                filtered: action.payload
+            }
+        case FILTER_BY:
+            let copy = state.videogames
+            return {
+                ...state,
+                filtered: [...copy].filter(action.payload),
             }
         default:
             return state;

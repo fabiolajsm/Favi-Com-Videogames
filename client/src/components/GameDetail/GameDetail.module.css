@@ -1,0 +1,25 @@
+.des {
+    padding: 40px;
+    background-color: #34495e
+}
+
+.tittleDes {
+    font-size: 17px;
+    font-family: -webkit-body;
+    align-content: flex-end;
+    color: black;
+}
+
+.textDes {
+    font-size: 15px;
+    font-family: -webkit-body;
+    color: #d8e2dc;
+}
+
+.image {
+    width: 37%;
+    height: 350px;
+    margin-right: 700px;
+    box-shadow: 3px 4px #000000;
+    border-radius: 21px;
+}

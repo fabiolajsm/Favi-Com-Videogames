@@ -23,7 +23,7 @@ export default function NavBar() {
     setName('')
   }
   return (
-    <div className={styles.container} className={styles.body}>
+    <div className={styles.container}>
       <img src="../pic.png" alt="logo" width="134px" height="140px" />
       <nav>
         <Link to="/videogames"><span>Home</span></Link>

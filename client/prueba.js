@@ -1,253 +1,367 @@
-// import React, { useState, useEffect } from 'react';
-// import Game from '../Game/Game';
-// import Pagination from '../Pagination/Pagination';
-// import axios from 'axios';
-
-// const Videogames = () => {
-//     const [posts, setPosts] = useState([]);
-//     const [loading, setLoading] = useState(false);
-//     const [currentPage, setCurrentPage] = useState(1);
-//     const [postsPerPage] = useState(10);
-
-//     useEffect(() => {
-//         const fetchPosts = async () => {
-//             setLoading(true);
-//             const res = await axios.get('http://localhost:3001/videogames');
-//             setPosts(res.data);
-//             setLoading(false);
-//         };
-//         fetchPosts();
-//     }, []);
-
-//     // Get current posts
-//     const indexOfLastPost = currentPage * postsPerPage;
-//     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-//     const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-
-//     // Change page
-//     const paginate = pageNumber => setCurrentPage(pageNumber);
-
-//     return (
-//         <div>
-//             <h1>Videogames</h1>
-//             <Game posts={currentPosts} loading={loading} />
-//             <Pagination
-//                 postsPerPage={postsPerPage}
-//                 totalPosts={posts.length}
-//                 paginate={paginate}
-//             />
-//         </div>
-//     );
-// };
-
-// export default Videogames;
-// import React from 'react';
-
-// const Posts = ({ posts, loading }) => {
-//     if (loading) {
-//         return <h2>Loading...</h2>;
-//     }
-    
-//     return (
-//         <ul>
-//             {posts.map(post => (
-//                 <div key={post.id} >
-//                     <h2>{post.name}</h2>
-//                     <img src={post.img} alt={post.id} width="300px" />
-//                     <h2>{post.genres.join(', ')}</h2>
-//                     <h2>{post.rating}</h2>
+/// tatz version 
+// const ByYou = ({ showGames }) => {
+//     return (showGames && showGames.map(vg => {
+//         if (filterByGenres !== 'All') {
+//             if (vg.created === true && vg.genres.includes(filterByGenres)) {
+//                 return <div key={vg.id} >
+//                     <Link to={`/videogame/${vg.id}`}>
+//                         <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
+//                     </Link>
 //                 </div>
-//             ))}
-//         </ul>
-//     );
+//             }
+//             return <div>{`Sorry! we don't have a game with that genre`}</div>
+//         }
+//         else if (filterByGenres === 'All') {
+//             if (vg.created === true) {
+//                 return <div key={vg.id} >
+//                     <Link to={`/videogame/${vg.id}`}>
+//                         <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
+//                     </Link>
+//                 </div>
+//             }
+//         }
+//         return console.log('Created by you');
+//     }))
 // };
 
-// export default Posts;
-
-//  {/* <img src="https://i.pinimg.com/564x/57/ee/72/57ee72c7df36b686d17fd810c125458e.jpg" alt="" width="60" height="60" /> */}
-//  <span >Favi-Con</span>
-//  <form onSubmit={(e) => handleSubmit(e)}>
-//    <input
-//      type="text"
-//      id="title"
-//      placeholder='Busca un videojuego...'
-//      autoComplete="off"
-//      value={name}
-//      onChange={(e) => handleChange(e)}
-//    ></input>
-//  </form>
-//  <a ><Link to="/videogame/">Create Game!</Link> </a>
-// import React, { useEffect, useState } from 'react';
-// import { useDispatch } from 'react-redux';
-// import { Link } from 'react-router-dom';
-// import addGame from '../../actions/addGame'
-
-// como me servia antes todos los videogames:
-// import React, { useState } from 'react';
-// import { Link } from 'react-router-dom';
-// import { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { getAllGames } from '../../actions/getVideogames';
-// import Game from '../Game/Game'
-// import NavBar from '../NavBar/NavBar';
-// import style from '../Videogames/Videogames.module.css'
-
-// export default function Videogames() {
-//     const state = useSelector(state => state.videogames)
-//     const dispatch = useDispatch()
-//     const [currentPage, setCurrentPage] = useState(0);
-
-//     useEffect(() => {
-//         dispatch(getAllGames())
-//     }, [dispatch]); // here the 'dispatch' for the warning
-
-//     const gamesLength = state.slice(currentPage, currentPage + 15)
-//     // const prevPage = () => { currentPage < 14 ? setCurrentPage(0) : setCurrentPage(currentPage - 15) }
-//     // const nextPage = () => { state.length < currentPage + 15 ? setCurrentPage(currentPage) : setCurrentPage(currentPage + 15) }
-
-//     return (
-//         <div>
-//             {
-//                 state.length > 0 && typeof state[0] == "object" ?
-//                     (
-//                         <div>
-
-//                             <NavBar />
-//                             {/* part of filter by and order by */}
-//                             <h2>Filter by:</h2>
-//                             <select name="genero">
-//                                 <option value="value1">Value 1</option>
-//                                 <option value="value2">Value 2</option>
-//                                 <option value="value3">Value 3</option>
-//                             </select>
-//                             <select name="Videogame">
-//                                 <option value="Existente">Existente</option>
-//                                 <option value="Creado">Creado</option>
-//                             </select>
-//                             <h2>Order by:</h2>
-//                             <select name="Videogame" >
-//                                 <option value="Ascendente">Ascendente</option>
-//                                 <option value="Descendente">Descendente</option>
-//                                 <option value="Alfabeticamente">Alfabeticamente </option>
-//                                 <option value="Rating">Rating</option>
-//                             </select>
-
-//                             {/* here is when I render the component Game */}
-//                             <div className={style.container}>
-//                                 {state && state.map(vg => {
-//                                     return <div key={vg.id} >
-//                                         <Link to={`/videogame/${vg.id}`}>
-//                                             <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
-//                                         </Link>
-//                                     </div>
-//                                 })}
-//                             </div>
-
-//                         </div>
-
-//                         //  attempt 1/ pagination
-            
-             
-
-
-
-
-
-
-
-
-
-//                     )
-//                     // else:
-//                     : (<div>
-//                         {/* put styles here! */}
-//                         <h1>Loading...</h1>
-//                     </div>)
-
+// const ByFavs = ({ showGames }) => {
+//     return (showGames && showGames.map(vg => {
+//         if (filterByGenres !== 'All') {
+//             if (vg.created === false && vg.genres.includes(filterByGenres)) {
+//                 return <div key={vg.id} >
+//                     <Link to={`/videogame/${vg.id}`}>
+//                         <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
+//                     </Link>
+//                 </div>
 //             }
+//         }
+//         else if (filterByGenres === 'All') {
+//             if (vg.created === false) {
+//                 return <div key={vg.id} >
+//                     <Link to={`/videogame/${vg.id}`}>
+//                         <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
+//                     </Link>
+//                 </div>
+//             }
+//         }
+//         return console.log('Created by Favi-Com');
+//     }))
+// };
+
+// const DefaultGames = ({ showGames }) => {
+//     return (showGames && showGames.map(vg => {
+//         return <div key={vg.id} >
+//             <Link to={`/videogame/${vg.id}`}>
+//                 <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
+//             </Link>
 //         </div>
-//     )
+//     }))
+// };
+
+// const filtersCreated = (filterBy) => {
+//     switch (filterBy) {
+//         case "By you": return (<ByYou showGames={showGames} />);
+//         case "By Favi-Com": return (<ByFavs showGames={showGames} />);
+//         default: return (<DefaultGames showGames={showGames} />)
+//     }
+// };
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { sendPaginate } from "../../actions/paginate";
+
+// export default function Paginate() {
+//   const state = useSelector((state) => state.filtered);
+//   const [page, setPage] = useState(1);
+//   const dispatch = useDispatch();
+//   let showGames = state.slice(0, 15);
+
+//   function gamesPerPage(page) {
+//     let end = page * 15;
+//     let start = end - 15;
+//     showGames = state.slice(start, end);
+//   }
+
+//   const handleChange = (newPage) => {
+//     setPage(newPage);
+//     gamesPerPage(newPage);
+//     dispatch(sendPaginate(showGames));
+//     return console.log("entre");
+//   };
+
+//   return (
+//     <div>
+//       <button onClick={() => { handleChange(page - 1) }} >prev</button>
+//       <button onClick={() => { handleChange(page + 1) }}>next</button>
+//     </div>
+//   );
 // }
 
 
-// import React, { useState } from 'react';
-// import { Link } from 'react-router-dom';
-// import { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { getAllGames } from '../../actions/getVideogames';
-// import Game from '../Game/Game'
-// import NavBar from '../NavBar/NavBar';
-// import style from '../Videogames/Videogames.module.css'
+// // form agus:
+// import React, { useState } from "react";
+// import { getTemperaments } from "../../actions";
+// import { useEffect } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import axios from "axios";
+// import { useHistory } from "react-router";
+// import imaged from "./space.gif";
+// import { Link } from "react-router-dom";
+// import s from "./form.module.css"
+// import NavBar from "../NavBar/NavBar"
+// function Form() {
+//   // EL COMPONENTE FUNCIONA
 
-// export default function Videogames() {
-//     const state = useSelector(state => state.videogames)
-//     const dispatch = useDispatch()
-//     const [currentPage, setCurrentPage] = useState(0);
+//   const DefImg = imaged;
+//   const expresiones = {
+//     nombre: /^[a-zA-ZÀ-ÿ\s]{4,40}$/,
+//     numero: /^\d{1,2}$/, // no usada
+//   };
 
-//     useEffect(() => {
-//         dispatch(getAllGames())
-//     }, [dispatch]); // here the 'dispatch' for the warning
+//   //////////////////////////////////////// HOOKS ////////////////////////////////////////////////
 
-//     const showGames = state.slice(currentPage, currentPage + 15)  // length = 15
-//     const prevPage = () => { currentPage <= 15 ? setCurrentPage(0) : setCurrentPage(currentPage - 15) } // 
-//     const nextPage = () => { state.length < currentPage + 15 ? setCurrentPage(currentPage) : setCurrentPage(currentPage + 15) }
+//   const [name, setName] = useState({ value: "", valid: null }); //Nombre
+//   const [minH, setMinH] = useState({ value: "0", valid: null }); //Altura Minima
+//   const [maxH, setMaxH] = useState({ value: "", valid: null }); //Altura MAxima
+//   const [minW, setMinW] = useState({ value: "0", valid: null }); //Peso Minimo
+//   const [maxW, setMaxW] = useState({ value: "", valid: null }); //Peso Maximo
+//   const [minAge, setMinAge] = useState({ value: "0", valid: "true" }); //Edad
+//   const [maxAge, setMaxAge] = useState({ value: "", valid: "true" }); //Edad
+//   const [image, setImage] = useState({ value: "", valid: "true" }); //Edad
+//   const [selectedTemps, setSelectedTemps] = useState([]);
+//   // const [tempn, setTempn] = useState([]) //nombre Temperamentos
+//   //const [tempId, setTempId] = useState([]) //nombre Temperamentos
+//   const [error, setError] = useState(""); // Error
+//   const { push } = useHistory(); //Hook Para Redireccionar
+//   const temps = useSelector((state) => state.Temperaments); //Temperamentos Disponibles en el Back
+//   const dispatch = useDispatch(); //Hook Dispatch
 
-//     return (
-//         <div>
-//             {
-//                 showGames.length > 0 && typeof showGames[0] == "object" ?
-//                     (
-//                         <div>
+//   useEffect(() => {
+//     dispatch(getTemperaments()); //CDM Component Did Mount
+//     // return () => dispatch(clear) //CWU Component Will UnMount
+//   },[dispatch]); //CDU Component Did Update
 
-//                             <NavBar />
-//                             {/* part of filter by and order by */}
-//                             <h2>Filter by:</h2>
-//                             <select name="genero">
-//                                 <option value="value1">Value 1</option>
-//                                 <option value="value2">Value 2</option>
-//                                 <option value="value3">Value 3</option>
-//                             </select>
-//                             <select name="Videogame">
-//                                 <option value="Existente">Existente</option>
-//                                 <option value="Creado">Creado</option>
-//                             </select>
-//                             <h2>Order by:</h2>
-//                             <select name="Videogame" >
-//                                 <option value="Ascendente">Ascendente</option>
-//                                 <option value="Descendente">Descendente</option>
-//                                 <option value="Alfabeticamente">Alfabeticamente </option>
-//                                 <option value="Rating">Rating</option>
-//                             </select>
+//   //////////////////////////////////////// HANDLERS ////////////////////////////////////////////////
 
-//                             {/* here is when I render the component Game */}
-//                             <div className={style.container}>
-//                                 {showGames && showGames.map(vg => {
-//                                     return <div key={vg.id} >
-//                                         <Link to={`/videogame/${vg.id}`}>
-//                                             <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
-//                                         </Link>
-//                                     </div>
-//                                 })}
-//                             </div>
+//   /////////////////////////////////////// HANDLE SUBMIT
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     if (name.valid === "true") {
+//       let temps = selectedTemps.map((t) => t.id);
+//       let dogi = {
+//         name: `${name.value}`,
+//         height: `${minH.value} - ${maxH.value}`,
+//         weight: `${minW.value} - ${maxW.value}`,
+//         age: `${minAge.value} - ${maxAge.value} years`, //seteando valores de perrito
+//         image: image.value || DefImg,
+//         temperaments: temps,
+//       };
 
-//                             {/* attempt 1/ pagination */}
+//       axios.post("http://localhost:3001/dog", dogi) // Sumbit del perrito
+//         .then((response) => {
+//           push("dogs/" + response.data.id);
+//         });
+//     } else {
+//       alert("el Nombre de perro no es valido");
+//     }
+//   };
+//   /////////////////////////////////////// HANDLE CHANGE
+//   const handleChange = (e) => {
+//     console.log(e.target.name);
+//     switch (e.target.name) {
+//       case "name":
+//         setName({ ...name, value: e.target.value });
+//         break;
+//       case "minH":
+//         setMinH({ ...minH, value: e.target.value });
+//         break;
+//       case "maxH":
+//         setMaxH({ ...maxH, value: e.target.value });
+//         break; //handles dogs changes
+//       case "minW":
+//         setMinW({ ...minW, value: e.target.value });
+//         break;
+//       case "maxW":
+//         setMaxW({ ...maxW, value: e.target.value });
+//         break;
+//       case "minAge":
+//         setMinAge({ ...minAge, value: e.target.value });
+//         break;
+//       case "maxAge":
+//         setMaxAge({ ...maxAge, value: e.target.value });
+//         break;
+//       case "image":
+//         setImage({ ...image, value: e.target.value });
+//         break;
+//       default:
+//         break;
+//     }
+//   };
 
-//                             {showGames.length > 10 ? <div>
-//                                 {currentPage !== 0 ? <button onClick={prevPage}>{'...back 🚀'}</button> : <div></div>} {/*this for prev page */}
-//                                 {currentPage !== 90 ? <button onClick={nextPage}>{'next...✨'}</button> : <div></div>} {/*this for next page */}
-//                             </div> : <div></div>}
+//   const handleSelect = (e) => {
+//     //handles temperaments changes
+//     e.preventDefault();
+//     let temp = e.target.value.split(",");
+//     var i = selectedTemps.length;
+//     var flag = false;
+//     while (i--) {
+//       if (selectedTemps[i].name === temp[0]) return (flag = true);
+//     }
+//     if (flag) return;
+//     var pack = { id: temp[1], name: temp[0] };
+//     return setSelectedTemps([...selectedTemps, pack]);
+//   };
 
+//   const onClose = (e) => {
+//     e.preventDefault();
+//     let newTemps = selectedTemps.filter((t) => t.id !== e.target.value);
+//     setSelectedTemps(newTemps);
+//   };
 
-//                         </div> // this is the final finaaaaaaal div!
+//   const validate = (e) => {
+//     if (expresiones.nombre.test(e.target.value)) {
+//       setName({ ...name, valid: "true" });
+//       setError(undefined);
+//     } else setError("Name is not valid");
+//   };
+//   const handleCreate = (e) => {
+//     e.preventDefault();
+//   };
+//   //////////////////////////////////////// HANDLERS ////////////////////////////////////////////////
 
-//                     )
-//                     // else:
-//                     : (<div>
-//                         {/* put styles here! */}
-//                         <h1>Loading...</h1>
-//                     </div>)
-
-//             }
+//   ///////////////////////////////////////////////// DA Form
+//   return (
+//     <div className={s.container}>
+//       <NavBar/>
+//       <div className={s.imgCont}>
+//       <img className={s.img} src={image.value} alt=""/>
+//       </div>
+//       <div>
+//       <form className={s.form} onSubmit={(e) => handleSubmit(e)}>
+//         <div className={s.inputName}>
+//         <div className={s.name}>
+//         {error ? <p className={s.span  }>{error}</p> : <label>Name dog</label>}</div>
+//         <input
+//           type="text"
+//           name="name"
+//           placeholder="name..."
+//           onBlur={validate}
+//           onKeyUp={validate}
+//           onChange={handleChange}
+//           value={name.value}
+//           className={error? s.error : s.input}
+//         ></input> 
 //         </div>
-//     )
+//         <div className={s.inputName}>
+//         <label>Height </label>
+//         <input
+//           type="number"
+//           placeholder="Min H"
+//           name="minH"
+//           min="0"
+//           max={maxH.value}
+//           step="1"
+//           onChange={handleChange}
+//           className={s.input2}
+//         ></input>
+//         <label> - </label>
+//         <input
+//           type="number"
+//           name="maxH"
+//           placeholder="Max H"
+//           min={minH.value}
+//           max="103"
+//           step="1"
+//           onChange={handleChange}
+//           className={s.input2}
+//         ></input> cm
+//         </div>
+//         <div className={s.inputName}>
+//         <label>Weight</label>
+//         <input
+//           type="number"
+//           placeholder="Min W"
+//           name="minW"
+//           min="0"
+//           max={maxW.value}
+//           step="0.5"
+//           onChange={handleChange}
+//           className={s.input2}
+//         ></input>
+        
+//         <label> - </label>
+//         <input
+//           type="number"
+//           name="maxW"
+//           placeholder="Max W"
+//           min={minW.value}
+//           max="220"
+//           step="0.5"
+//           onChange={handleChange}
+//           className={s.input2}
+//         ></input> Kg
+//         </div>
+//         <div className={s.inputName}>
+//         <label>Age</label>
+//         <input
+//           type="number"
+//           placeholder="Min A"
+//           name="minAge"
+//           min="0"
+//           max={maxAge.value}
+//           step="1"
+//           onChange={handleChange}
+//           className={s.input2}
+//         ></input>
+//         <label> - </label>
+//         <input
+//           type="number"
+//           name="maxAge"
+//           placeholder="Max A"
+//           min={minAge.value}
+//           max="29"
+//           step="1"
+//           onChange={handleChange}
+//           className={s.input2}
+//         ></input> years
+//         </div>
+//         <div className={s.inputName}>
+//         <label>Image url </label>
+//         <input
+//           type="text"
+//           name="image"
+//           value={image.value}
+//           onChange={handleChange}
+//           className={s.input}
+//         ></input>
+//         </div>
+//         {selectedTemps.length< 13 ?<select className={s.select} onChange={handleSelect}>
+//           <option value disabled>
+//             select temperaments
+//           </option>
+//           {temps &&
+//             temps.map((t) => {
+//               return <option value={[t.name, t.id]}>{t.name}</option>;
+//             })}
+//         </select> : null}
+//         <div className={s.tempC}>
+//         {selectedTemps ? (
+//           selectedTemps.map((t) => {
+//             return (
+//                 <button className={s.temp} onClick={onClose} key={t.name} value={t.id}>
+//                   {t.name} 
+//                 </button>)})): null}
+//           </div> 
+//           <button className={s.btnS} type="submit" onSubmit={handleCreate}>
+//           Create Doggo!
+//         </button>    
+//       </form>
+//       </div>
+//       <div className={s.btnC}>
+        
+//       <Link className={s.btn} to="/home">Cancel</Link>
+//       </div>
+//     </div>
+//   );
 // }
+
+// export default Form;

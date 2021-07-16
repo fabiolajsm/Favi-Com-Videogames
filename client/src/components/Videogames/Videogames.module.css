@@ -7,6 +7,19 @@
     gap: 50px;
 }
 
+body {
+    background: #2c3e50;
+}
+
+.back1 {
+    background-color: pink;
+}
+
+.back2 {
+    background-image: url('https://i.pinimg.com/originals/87/3f/71/873f71c1f893a0aafad8695324fedfc9.gif');
+    height: 100vh;
+}
+
 /* padding: 2em;
 display: grid;
 justify-content: center;

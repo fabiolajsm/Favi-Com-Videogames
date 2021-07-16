@@ -1,9 +1,3 @@
-body {
-    font-size: 12px;
-    font-family: sans-serif;
-    background: #2c3e50;
-}
-
 nav {
     margin: 0px auto 0;
     position: flex;

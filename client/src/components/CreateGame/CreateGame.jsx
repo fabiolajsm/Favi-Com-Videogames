@@ -4,11 +4,12 @@ import { Link, useHistory } from 'react-router-dom';
 import { addGame, getGenres, getPlatforms } from '../../actions/addGame'
 
 export default function CreateGame() {
+    const imageDefault = 'https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled.png'
     const stateP = useSelector(state => state.platforms)
     const stateG = useSelector(state => state.genres)
-        useEffect(() => {
-            dispatch(getPlatforms())
-        }, []) // missing dependency?
+    useEffect(() => {
+        dispatch(getPlatforms())
+    }, []) // missing dependency?
 
     useEffect(() => {
         dispatch(getGenres())
