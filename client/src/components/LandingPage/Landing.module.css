@@ -1,35 +1,26 @@
-/* * {
-  box-sizing: border-box;
+.content {
+    opacity: 1;
+    background-image: url('https://i.pinimg.com/originals/3b/72/cc/3b72ccbc21bbfcb4c3ab8a758b756502.jpg');
+    background-size: cover;
+    background-position: center 70%;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
 }
 
-.body {
-  margin: 0;
-  font-family: Arial;
-  font-size: 17px;
-} */
-
-/* .myImg {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    top: -511px;
-    min-width: 100%;
-    min-height: 100%;
-} */
-
-.content {
-    position: fixed;
-    bottom: 0;
+.conTitle {
     background: rgba(194, 180, 180, 0.5);
-    color: black;
     width: 100%;
-    padding: 20px;
-    margin: 0;
-    font-family: Arial;
-    font-size: 17px;
-    box-sizing: border-box;
-    background-image: url("https://images.unsplash.com/photo-1612404459571-ccef4b6588e7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=751&q=80");
-    background-size: auto;
+    padding: 200px;
+}
+
+.title {
+    font-size: 32px;
+    text-align: center;
+    align-content: center;
+    position: relative;
+    margin: auto;
+    display: block;
 }
 
 .bt {
@@ -51,64 +42,3 @@
     background-color: #ddd;
     color: black;
 }
-
-/* 
-.myBtn {
-  width: 200px;
-  font-size: 18px;
-  padding: 10px;
-  border: none;
-  background: #000;
-  color: #fff;
-  cursor: pointer;
-}
-
-.myBtn:hover {
-  background: #ddd;
-  color: black;
-} */
-
-/* 
-.background {
-    background-image: url("https://thumbs.gfycat.com/EnlightenedYoungBaiji-mobile.mp4");
-    background-size: cover;
-    min-height: 720px;
-    position: relative;
-} */
-
-/* 
-.bt {
-    background-color: transparent;
-    border: 2px solid #FFF;
-    color: black;
-    padding: 15px 32px;
-    text-align: center;
-    display: inline-block;
-    font-size: 1rem;
-    cursor: pointer;
-    outline: none;
-    margin: 50px 0 0 0;
-    -webkit-appearance: button;
-    transition: 0.3s ease;
-} */
-
-/* #favorite {
-    color: #FFF;
-    outline: none;
-} */
-
-/* button:hover {
-    transition: 0.3s ease;
-    box-shadow: 0 10px 40px 0 rgba(255, 255, 255, 0.15)
-} */
-
-/* #about {
-    padding: 100px 50px;
-}
-
-p {
-    font-size: 1.25rem;
-    text-align: justify;
-    margin-top: 0;
-    margin-bottom: 1rem;
-} */
