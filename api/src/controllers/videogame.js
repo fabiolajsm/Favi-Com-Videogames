@@ -84,7 +84,7 @@ const addGame = async (req, res, _next) => {
         return res.json(game)
     }
     catch (err) {
-        console.log(err, 'aquii');
+        console.log(err, 'heree');
     }
 };
 
