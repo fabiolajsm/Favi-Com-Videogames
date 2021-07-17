@@ -51,7 +51,6 @@ export default function Videogames() {
             return showGames.slice(initial, offset);
         }
     };
-
     // if (showGames.length === 0 && typeof showGames[0] !== "object") return <div>Loading...</div>
     return (
         <div className={showGames.length > 0 ? style.back1 : style.back2}>
@@ -86,7 +85,7 @@ export default function Videogames() {
                 </div>
 
                 {
-                    showGames && showGames.length > 0 ? <div > {/* className={s.btnCont} */}
+                    showGames && showGames.length > 15 ? <div > {/* className={s.btnCont} */}
                         {/* className={s.btnPage}
 className={s.btnPage} */}
                         <button onClick={(e) => handlePage(e)} name="prev">
@@ -97,7 +96,8 @@ className={s.btnPage} */}
                         <button onClick={(e) => handlePage(e)} name="next">
                             next
                         </button>
-                    </div> : null
+                    </div> : <button onClick={() => dispatch(getAllGames())}>Eliminate filters</button>
+
                 }
 
             </div>

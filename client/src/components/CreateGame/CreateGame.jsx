@@ -4,47 +4,40 @@ import { Link, useHistory } from 'react-router-dom';
 import { addGame, getGenres, getPlatforms } from '../../actions/addGame'
 
 export default function CreateGame() {
-    const imageDefault = 'https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled.png'
     const stateP = useSelector(state => state.platforms)
     const stateG = useSelector(state => state.genres)
-    useEffect(() => {
-        dispatch(getPlatforms())
-    }, []) // missing dependency?
+    const dispatch = useDispatch()
+    const { push } = useHistory()
+    const urlValidate = /(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/
 
     useEffect(() => {
         dispatch(getGenres())
+        dispatch(getPlatforms())
     }, [])
 
-    const dispatch = useDispatch()
     const [name, setName] = useState('');
     const [description, setDescription] = useState('')
     const [img, setImg] = useState('')
-    const [rating, setRating] = useState('')
+    const [rating, setRating] = useState(0)
     const [releaseDate, setReleaseDate] = useState('')
     const [platforms, setPlatforms] = useState([])
     const [genres, setGenres] = useState([])
 
-    const { push } = useHistory()
-
     function handleSubmit(e) {
         e.preventDefault();
-        try {
-            let body = {  // lo que le voy a pasar al addNewGame
-                name: name,
-                description: description,
-                img: img,
-                releaseDate: releaseDate,
-                rating: rating,
-                platforms: platforms,
-                genres: genres
-            } //  name, description, img, releaseDate, rating, platforms, genres
-            // console.log(body, 'entreeeeeeeeeeeeeeeee');
+        if (name === '') return alert('Name is required');
+        if (description === '') return alert('Description is required');
+        if (img === '') return alert('Url image is required');
+        if (!urlValidate.test(img)) return alert('Image it most be an URL');
+        if (releaseDate === '') return alert('Release date is required');
+        if (platforms.length === 0) return alert('You most select at least one platform');
+        if (genres.length === 0) return alert('You most select at least one genre');
+        else {
+            let body = { name, description, img, releaseDate, rating, platforms, genres }
+            console.log(body, 'aquiiiiiiiiiiiii');
             dispatch(addGame(body))
             alert('Your videogame was created!')
             push("/videogames")
-        }
-        catch (err) {
-            console.log(err.message);
         }
     }
 
@@ -55,7 +48,7 @@ export default function CreateGame() {
             case 'img': setImg(e.target.value); break;
             case 'rating': setRating(e.target.value); break;
             case 'releaseDate': setReleaseDate(e.target.value); break;
-            case 'platforms': setPlatforms([...platforms, e.target.value]); break; // []
+            case 'platforms': setPlatforms([...platforms, e.target.value]); break;
             case 'genres': setGenres([...genres, e.target.value]); break;
             default: break
         }
@@ -63,30 +56,28 @@ export default function CreateGame() {
 
     return (
         <div>
-            {/* onSubmit={(e) => handleSubmit(e)}    lo que tenia antes el form */}
             <form onSubmit={(e) => handleSubmit(e)} >
                 <div>
                     <label>Name:</label>
-                    <input type="text" name="name" value={name} onChange={handleChange} placeholder="Name" />
+                    <input type="text" name="name" value={name} required onChange={handleChange} placeholder="Name" />
                 </div>
                 <div>
                     <label>Description:</label>
-                    <input type="text" name="description" value={description} onChange={handleChange} placeholder="Description" />
+                    <input type="text" name="description" value={description} required onChange={handleChange} placeholder="Description" />
                 </div>
                 <div>
                     <label>Img:</label>
-                    <input type="text" name="img" value={img} onChange={handleChange} placeholder="Url/img..." />
+                    <input type="text" name="img" value={img} required onChange={handleChange} placeholder="Url/img..." />
                 </div>
                 <div>
                     <label>Release Date:</label>
-                    <input type="date" name="releaseDate" value={releaseDate} onChange={handleChange} placeholder="Release Date" />
+                    <input type="date" name="releaseDate" value={releaseDate} required onChange={handleChange} placeholder="Release Date" />
                 </div>
                 <div>
                     <label>Rating:</label>
-                    <input type="number" name="rating" value={rating} onChange={handleChange} placeholder="Rating" />
+                    <input type="number" name="rating" value={rating} max="5" min="1" required onChange={handleChange} placeholder="Rating" />
                 </div>
 
-                {/* platforms && genres part */}
                 <div>
                     <h4>Platforms:</h4>
                     {stateP.map((e) => {
@@ -120,12 +111,9 @@ export default function CreateGame() {
                         )
                     })}
                 </div>
-                {/* now, when you click, the information most go... */}
                 <input onClick={handleSubmit} type="submit" value="Agregar" className="btn btn-primary mb-2" />
             </form>
-            <button><Link to="/videogames">Home</Link> </button>
+            <button><Link to="/videogames">Home</Link></button>
         </div >
     );
-
-}; // hasta aquii
-
+};
