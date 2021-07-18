@@ -12,28 +12,22 @@ export default function GameDetail() {
     const { id } = useParams()
     useEffect(() => {
         dispatch(getGameById(id))
-    }, [id, dispatch]); // this bc the warning 
+    }, [id, dispatch]);
     return (
-        <div>
+        <div className={style.allDiv}>
             {
                 state && Object.keys(state).length > 0 ?
                     <>
-                        <h1>{state.name}</h1>
-                        <div className={style.des}>
-                            <img src={state.img} alt={state.id} className={style.image} />
-                            <h2 className={style.tittleDes}>Description:</h2>
-                            <h2 className={style.textDes}>{state.description.replace(/<[^>]+>/g, '')}</h2>
-                            <div>
-                                <h3>Rating: {state.rating}</h3>
-                                <h3>Released Date: {state.releaseDate}</h3>
-                                <h3>Genres: {state.genres}</h3>
-                                <h3>Platforms: {state.platforms}</h3>
-                            </div>
+                        <div className={style.allDiv}>
+                            <h1 className={style.title}>{state.name}</h1>
+                            <img className={style.imgIzq} src={state.img} alt="Not found" />
+                            <h6 className={style.des}>Description: {state.description.replace(/<[^>]+>/g, '')}</h6>
+                            <h4 className={style.text}>◽ Rating: {state.rating} ◽ Released Date: {state.releaseDate} ◽ Genres: {state.genres} ◽ Platforms: {state.platforms}</h4>
                         </div>
-                        <Link to="/videogames">Home</Link>
+                        <Link to="/videogames">back home</Link>
                     </>
                     :
-                    <h1>Loading...</h1>
+                    <div className={style.loading}></div>
             }
         </div>
 
