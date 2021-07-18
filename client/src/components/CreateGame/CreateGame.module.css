@@ -1,4 +1,154 @@
-.form {
+.container {
     display: grid;
     justify-content: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 50vh;
+}
+
+.form {
+    background-color: #15172b;
+    border-radius: 20px;
+    box-sizing: border-box;
+    height: 500px;
+    padding: 20px;
+    width: 320px;
+}
+
+.title {
+    color: #eee;
+    font-family: sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    margin-top: 30px;
+}
+
+.subtitle {
+    color: #eee;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+    align-content: center;
+    text-align: center;
+    position: relative;
+}
+
+.subtitleGenre {
+    color: #eee;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+    align-content: center;
+    text-align: center;
+    position: relative;
+    margin-left: 172px
+}
+
+.subtitlePlat {
+    color: #eee;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+    align-content: center;
+    text-align: center;
+    position: relative;
+    margin-left: 164px
+}
+
+.input_container {
+    height: 50px;
+    position: relative;
+    width: 100%;
+}
+
+.ic1 {
+    margin-top: 40px;
+}
+
+.ic2 {
+    margin-top: 30px;
+}
+
+.input {
+    background-color: #303245;
+    border-radius: 12px;
+    border: 0;
+    box-sizing: border-box;
+    color: #eee;
+    font-size: 18px;
+    height: 100%;
+    outline: 0;
+    padding: 4px 20px 0;
+    width: 100%;
+}
+
+.submit {
+    background-color: #15172b;
+    border-radius: 12px;
+    border: 0;
+    box-sizing: unset;
+    color: #eee;
+    font-size: 18px;
+    height: 50px;
+    margin-bottom: 18px;
+    margin-top: 65px;
+    margin-left: 406px;
+    outline: 0;
+    text-align: center;
+    width: 10%;
+}
+
+.submit:hover {
+    background-color: #27213C;
+}
+
+.inputCheck {
+    color: blanchedalmond;
+    width: 20px;
+    position: relative;
+    left: 200px;
+    vertical-align: middle;
+    width: 200px;
+}
+
+.al {
+    position: relative;
+    left: -20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.global {
+    background-color: black;
+    padding-top: 45px;
+}
+
+.left {
+    float: left;
+    width: 30%;
+}
+
+.center {
+    display: inline-block
+}
+
+.right {
+    float: right;
+    width: 30%;
+}
+
+.littlenav {
+    width: 136px;
+    height: 140px;
+    position: inherit;
+    padding-right: 20px;
+    padding-top: 10px;
+}
+
+.bigDiv {
+    background-color: #b7b7a4
 }

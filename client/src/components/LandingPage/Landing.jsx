@@ -6,8 +6,8 @@ export default function LandingPage() {
     return (
         <div className={style.content} >
             <div className={style.conTitle}>
-                <h1 className={style.title}>Welcome to Favi-Con!</h1>
-                <h1 className={style.title}>a web page where you can find videogames</h1>
+                <p className={style.title}>Welcome to Favi-Con!</p>
+                <p className={style.title}>a web page where you can find videogames</p>
             </div>
             <Link to='/videogames'><button className={style.bt}>Press to start</button></Link>
         </div>

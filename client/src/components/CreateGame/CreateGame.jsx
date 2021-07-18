@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { addGame, getGenres, getPlatforms } from '../../actions/addGame'
+import style from './CreateGame.module.css'
+import imgnav from '../CreateGame/littlenav.png'
 
 export default function CreateGame() {
     const stateP = useSelector(state => state.platforms)
@@ -13,15 +15,15 @@ export default function CreateGame() {
     useEffect(() => {
         dispatch(getGenres())
         dispatch(getPlatforms())
-    }, [])
+    }, []);
 
     const [name, setName] = useState('');
-    const [description, setDescription] = useState('')
-    const [img, setImg] = useState('')
-    const [rating, setRating] = useState(0)
-    const [releaseDate, setReleaseDate] = useState('')
-    const [platforms, setPlatforms] = useState([])
-    const [genres, setGenres] = useState([])
+    const [description, setDescription] = useState('');
+    const [img, setImg] = useState('');
+    const [rating, setRating] = useState(0);
+    const [releaseDate, setReleaseDate] = useState('');
+    const [platforms, setPlatforms] = useState([]);
+    const [genres, setGenres] = useState([]);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -34,12 +36,11 @@ export default function CreateGame() {
         if (genres.length === 0) return alert('You most select at least one genre');
         else {
             let body = { name, description, img, releaseDate, rating, platforms, genres }
-            console.log(body, 'aquiiiiiiiiiiiii');
             dispatch(addGame(body))
             alert('Your videogame was created!')
             push("/videogames")
         }
-    }
+    };
 
     function handleChange(e) {
         switch (e.target.name) {
@@ -52,68 +53,71 @@ export default function CreateGame() {
             case 'genres': setGenres([...genres, e.target.value]); break;
             default: break
         }
-    }
+    };
 
     return (
-        <div>
-            <form onSubmit={(e) => handleSubmit(e)} >
-                <div>
-                    <label>Name:</label>
-                    <input type="text" name="name" value={name} required onChange={handleChange} placeholder="Name" />
+        <div className={style.bigDiv}>
+            <img src={imgnav} alt="not found" className={style.littlenav} />
+            <div className={style.global}>
+                <div className={`${style.container} ${style.center}`}>
+                    <form onSubmit={(e) => handleSubmit(e)} className={style.form} >
+                        <div class={style.subtitle}>Let's create your videogame!</div>
+                        <div className={`${style.input_container} ${style.ic1}`}>
+                            <input className={style.input} type="text" name="name" value={name} required onChange={handleChange} placeholder="Name" />
+                        </div>
+                        <div className={`${style.input_container} ${style.ic2}`} >
+                            <input className={style.input} type="text" name="description" value={description} required onChange={handleChange} placeholder="Description" />
+                        </div>
+                        <div className={`${style.input_container} ${style.ic2}`}>
+                            <input className={style.input} type="text" name="img" value={img} required onChange={handleChange} placeholder="Url/img..." />
+                        </div>
+                        <div className={`${style.input_container} ${style.ic2}`}>
+                            <input className={style.input} type="date" name="releaseDate" value={releaseDate} required onChange={handleChange} placeholder="Release Date" />
+                        </div>
+                        <div className={`${style.input_container} ${style.ic2}`}>
+                            <input className={style.input} type="number" name="rating" value={rating} max="5" min="1" required onChange={handleChange} placeholder="Rating" />
+                        </div>
+                    </form>
+                </div >
+                <div className={`${style.inputCheck} ${style.al} ${style.left}`}>
+                    <form>
+                        <h4 className={style.subtitlePlat}>Platforms</h4>
+                        {stateP.map((e) => {
+                            return (
+                                <div key={e.ID}>
+                                    <input
+                                        type='checkbox'
+                                        name='platforms'
+                                        value={e.ID}
+                                        onChange={(e) => { handleChange(e) }}
+                                    />
+                                    <label name={e}>{e.name}</label>
+                                </div>
+                            )
+                        })}
+                    </form>
                 </div>
-                <div>
-                    <label>Description:</label>
-                    <input type="text" name="description" value={description} required onChange={handleChange} placeholder="Description" />
+                <div className={`${style.inputCheck} ${style.al} ${style.right}`}>
+                    <form>
+                        <h4 className={style.subtitleGenre}>Genres</h4>
+                        {stateG.map((e) => {
+                            return (
+                                <div key={e.ID}>
+                                    <input
+                                        type='checkbox'
+                                        name='genres'
+                                        value={e.ID}
+                                        onChange={(e) => { handleChange(e) }}
+                                    />
+                                    <label name={e}>{e.name}</label>
+                                </div>
+                            )
+                        })}
+                    </form>
                 </div>
-                <div>
-                    <label>Img:</label>
-                    <input type="text" name="img" value={img} required onChange={handleChange} placeholder="Url/img..." />
-                </div>
-                <div>
-                    <label>Release Date:</label>
-                    <input type="date" name="releaseDate" value={releaseDate} required onChange={handleChange} placeholder="Release Date" />
-                </div>
-                <div>
-                    <label>Rating:</label>
-                    <input type="number" name="rating" value={rating} max="5" min="1" required onChange={handleChange} placeholder="Rating" />
-                </div>
-
-                <div>
-                    <h4>Platforms:</h4>
-                    {stateP.map((e) => {
-                        return (
-                            <div key={e.ID}>
-                                <input
-                                    type='checkbox'
-                                    name='platforms'
-                                    value={e.ID}
-                                    onChange={(e) => { handleChange(e) }}
-                                />
-                                <label name={e}>{e.name}</label>
-                            </div>
-                        )
-                    })}
-                </div>
-
-                <div>
-                    <h4>Genres:</h4>
-                    {stateG.map((e) => {
-                        return (
-                            <div key={e.ID}>
-                                <input
-                                    type='checkbox'
-                                    name='genres'
-                                    value={e.ID}
-                                    onChange={(e) => { handleChange(e) }}
-                                />
-                                <label name={e}>{e.name}</label>
-                            </div>
-                        )
-                    })}
-                </div>
-                <input onClick={handleSubmit} type="submit" value="Agregar" className="btn btn-primary mb-2" />
-            </form>
-            <button><Link to="/videogames">Home</Link></button>
-        </div >
+                <input className={style.submit} onClick={handleSubmit} type="submit" value="Create game" />
+            </div>
+            <Link to="/videogames">back home</Link>
+        </div>
     );
 };

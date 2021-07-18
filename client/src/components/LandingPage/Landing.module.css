@@ -12,6 +12,9 @@
     background: rgba(194, 180, 180, 0.5);
     width: 100%;
     padding: 200px;
+    text-align: center;
+    align-content: center;
+    align-items: center;
 }
 
 .title {
@@ -19,8 +22,10 @@
     text-align: center;
     align-content: center;
     position: relative;
-    margin: auto;
-    display: block;
+    display: flex;
+    text-align: center;
+    align-content: center;
+    align-items: center;
 }
 
 .bt {
