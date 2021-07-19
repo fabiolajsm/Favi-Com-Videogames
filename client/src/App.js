@@ -18,6 +18,7 @@ function App() {
         <Route path='/*' component={Error}></Route>
       </Switch>
     </div>
-  );
-}
+  )
+};
+
 export default App;
