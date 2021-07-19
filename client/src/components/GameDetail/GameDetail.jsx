@@ -33,4 +33,3 @@ export default function GameDetail() {
 
     )
 };
-//https://i.pinimg.com/originals/87/3f/71/873f71c1f893a0aafad8695324fedfc9.gif
