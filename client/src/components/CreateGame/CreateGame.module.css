@@ -152,3 +152,12 @@
 .bigDiv {
     background-color: #b7b7a4
 }
+
+.back {
+    background-color: transparent;
+    text-align: center;
+    border-color: thistle;
+    text-decoration: none;
+    align-items: center;
+    border-radius: 2px;
+}

@@ -119,7 +119,11 @@ export default function CreateGame() {
                 </div>
                 <input className={style.submit} onClick={handleSubmit} type="submit" value="Create game" />
             </div>
-            <Link to="/videogames">back home</Link>
-        </div>
+            <Link to="/videogames">
+                <button className={style.back}>
+                    back home
+                </button>
+            </Link>
+        </div >
     );
 };
