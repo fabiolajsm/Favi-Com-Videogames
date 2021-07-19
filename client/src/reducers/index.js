@@ -1,4 +1,4 @@
-import { GET_VIDEOGAMES, GET_VIDEOGAME_DETAIL, GET_BY_NAME, ADD_GAME, GET_GENRES, GET_PLATFORMS, ORDER_BY, FILTER_BY, FILTER_BY_GENRE } from '../actions/constants';
+import { GET_VIDEOGAMES, GET_VIDEOGAME_DETAIL, GET_BY_NAME, ADD_GAME, GET_GENRES, GET_PLATFORMS, ORDER_BY, FILTER_BY, FILTER_BY_GENRE, SET_LOADING } from '../actions/constants';
 
 const initialState = {
     videogames: [],
@@ -6,7 +6,8 @@ const initialState = {
     detail: {},
     genres: [],
     filtered: [],
-    platforms: []
+    platforms: [],
+    loading: true,
 };
 
 function rootReducer(state = initialState, action) {
@@ -15,7 +16,8 @@ function rootReducer(state = initialState, action) {
             return {
                 ...state,
                 videogames: action.payload,
-                filtered: action.payload
+                filtered: action.payload,
+                loading: false
             };
         case GET_VIDEOGAME_DETAIL:
             return {
@@ -25,8 +27,13 @@ function rootReducer(state = initialState, action) {
         case GET_BY_NAME:
             return {
                 ...state,
-                videogames: action.payload, // capaz aqui no
-                filtered: action.payload
+                filtered: action.payload,
+                loading: false
+            };
+        case SET_LOADING:
+            return {
+                ...state,
+                loading: action.payload
             };
         case ADD_GAME:
             return {
@@ -63,6 +70,6 @@ function rootReducer(state = initialState, action) {
         default:
             return state;
     }
-}
+};
 
 export default rootReducer;

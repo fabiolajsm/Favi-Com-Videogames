@@ -10,10 +10,12 @@ import getGenres from '../../actions/getGenres';
 import Orderby from '../Orders/Orders';
 import FilterOptions from '../Filters/Filters';
 import { filterByGenres } from '../../actions/orders&filters';
+import { loading } from '../../actions/getByName';
 
 export default function Videogames() {
     const showGames = useSelector(state => state.filtered)
     const state = useSelector(state => state.videogames)
+    const stateLoading = useSelector(state => state.loading)
     const genresState = useSelector(state => state.genres)
     const dispatch = useDispatch()
     const [page, setPage] = useState(1);
@@ -27,6 +29,11 @@ export default function Videogames() {
     }, [dispatch]);
 
     const handleGenres = (e) => { dispatch(filterByGenres(state, e.target.value)) };
+
+    const handleEliminateFilters = () => {
+        dispatch(getAllGames())
+        dispatch(loading(true))
+    };
 
     const handlePage = (e) => {
         if (e.target.name === "next") {
@@ -51,9 +58,9 @@ export default function Videogames() {
             return showGames.slice(initial, offset);
         }
     };
-    // if (showGames.length === 0 && typeof showGames[0] !== "object") return <div>Loading...</div>
+
     return (
-        <div className={showGames.length > 0 ? style.back1 : style.back2}>
+        <div className={stateLoading ? style.back2 : style.back1}>
             <div>
                 <div>
                     <NavBar />
@@ -69,7 +76,7 @@ export default function Videogames() {
                             <form>
                                 <select className={style.box_select} name="Genres" onChange={handleGenres} >
                                     <option key={'All'} value={'All'}>All</option>
-                                    {genresState.map((e) => { // este es mi array de generos
+                                    {genresState.map((e) => {
                                         return <option key={e.ID} value={e.name}>{e.name}</option>
                                     })}
                                 </select>
@@ -81,7 +88,7 @@ export default function Videogames() {
 
                 <div className={style.container}>
                     {
-                        showGames.length > 0 && paginate(showGames, page).map(vg => {
+                        !stateLoading && showGames.length > 0 && paginate(showGames, page).map(vg => {
                             return <div key={vg.id}>
                                 <Link to={`/videogame/${vg.id}`}>
                                     <Game id={vg.id} img={vg.img} name={vg.name} genres={vg.genres} />
@@ -92,7 +99,7 @@ export default function Videogames() {
                 </div>
 
                 {
-                    showGames && showGames.length > 15 ? <div > {/* className={s.btnCont} */}
+                    !stateLoading && showGames.length > 15 ? <div > {/* className={s.btnCont} */}
                         {/* className={s.btnPage}
 className={s.btnPage} */}
                         <button onClick={(e) => handlePage(e)} name="prev">
@@ -103,11 +110,9 @@ className={s.btnPage} */}
                         <button onClick={(e) => handlePage(e)} name="next">
                             next
                         </button>
-                    </div> : <button onClick={() => dispatch(getAllGames())}>Eliminate filters</button>
-
+                    </div> : <button onClick={() => handleEliminateFilters()}>Eliminate filters</button>
                 }
-
             </div>
         </div>
     )
-}
+};

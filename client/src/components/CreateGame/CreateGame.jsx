@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { addGame, getGenres, getPlatforms } from '../../actions/addGame'
+import addGame from '../../actions/addGame'
+import getGenres from '../../actions/getGenres'
+import getPlatforms from '../../actions/getPlatforms'
 import style from './CreateGame.module.css'
 import imgnav from '../CreateGame/littlenav.png'
 
@@ -15,7 +17,7 @@ export default function CreateGame() {
     useEffect(() => {
         dispatch(getGenres())
         dispatch(getPlatforms())
-    }, []);
+    }, [dispatch]);
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -61,7 +63,7 @@ export default function CreateGame() {
             <div className={style.global}>
                 <div className={`${style.container} ${style.center}`}>
                     <form onSubmit={(e) => handleSubmit(e)} className={style.form} >
-                        <div class={style.subtitle}>Let's create your videogame!</div>
+                        <div className={style.subtitle}>Let's create your videogame!</div>
                         <div className={`${style.input_container} ${style.ic1}`}>
                             <input className={style.input} type="text" name="name" value={name} required onChange={handleChange} placeholder="Name" />
                         </div>

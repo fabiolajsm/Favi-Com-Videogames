@@ -1,11 +1,15 @@
 import axios from 'axios';
-import { GET_BY_NAME } from './constants'
-
+import { GET_BY_NAME, SET_LOADING} from './constants'
 
 export const games = (videogames) => ({
     type: GET_BY_NAME,
     payload: videogames
-})
+});
+
+export const loading = (loading) => ({
+    type: SET_LOADING,
+    payload: loading
+});
 
 export const getByName = (name) => {
     return (dispatch) => {
@@ -15,4 +19,4 @@ export const getByName = (name) => {
                 dispatch(games(videogames.data))
             })
     }
-}
+};

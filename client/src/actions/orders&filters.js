@@ -16,4 +16,4 @@ export function filterByGenres(state, value) {
     else {
         return { type: FILTER_BY_GENRE, payload: state }
     }
-}
+};

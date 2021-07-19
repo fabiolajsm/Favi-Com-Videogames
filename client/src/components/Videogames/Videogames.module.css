@@ -39,14 +39,6 @@
     outline: none;
 }
 
-/* .rig {
-    width: 200px;
-    padding: 0px 20px;
-    margin-left: 30px;
-    border-radius: 10px;
-    padding: 10px 20px;
-} */
-
 .grid_container {
     display: grid;
     grid-template-columns: auto auto auto;
@@ -56,22 +48,13 @@
 .grid_item1 {
     margin-right: 5%;
     margin-left: auto;
-    /* display:'flex';
-    justify-content:'center';
-    border: solid 2px blue;
-
-    align-items:'flex-start'; */
 }
+
 .grid_item2 {
     margin-right: auto;
     margin-left: auto;
-    /* display:'flex';
-    align-items:'flex-start';
-    margin-bottom: 5%;
-    padding-right: 15%; */
 }
 
-.grid_item3{
+.grid_item3 {
     margin-right: auto;
-
 }

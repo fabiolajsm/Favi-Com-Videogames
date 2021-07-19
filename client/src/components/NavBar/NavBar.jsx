@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux'; //useSelector
-import { getByName } from '../../actions/getByName'
+import { useDispatch } from 'react-redux';
+import { getByName, loading } from '../../actions/getByName'
 import { Link } from 'react-router-dom';
 import styles from './NavBar.modules.css'
 
@@ -15,6 +15,7 @@ export default function NavBar() {
   function handleSubmit(event) {
     event.preventDefault();
     dispatch(getByName(name));
+    dispatch(loading(true));
     setName('')
   };
 
