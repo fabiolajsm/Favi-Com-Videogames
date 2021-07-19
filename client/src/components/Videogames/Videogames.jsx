@@ -85,7 +85,6 @@ export default function Videogames() {
                     </div>
                 </div>
 
-
                 <div className={style.container}>
                     {
                         !stateLoading && showGames.length > 0 && paginate(showGames, page).map(vg => {

@@ -10,8 +10,12 @@
 
 .conTitle {
     background: rgba(194, 180, 180, 0.5);
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    padding: 200px;
+    height: 50vh;
+    margin-top: 10%;
+    justify-content: center;
     text-align: center;
     align-content: center;
     align-items: center;
@@ -19,6 +23,7 @@
 
 .title {
     font-size: 32px;
+    font-family: 'Anton', sans-serif;
     text-align: center;
     align-content: center;
     position: relative;
