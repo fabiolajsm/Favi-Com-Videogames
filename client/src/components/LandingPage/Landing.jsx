@@ -12,4 +12,4 @@ export default function LandingPage() {
             <Link to='/videogames'><button className={style.bt}>Press to start</button></Link>
         </div>
     )
-}
+};
