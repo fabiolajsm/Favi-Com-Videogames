@@ -99,18 +99,17 @@ export default function Videogames() {
                 </div>
 
                 {
-                    !stateLoading && showGames.length > 15 ? <div > {/* className={s.btnCont} */}
-                        {/* className={s.btnPage}
-className={s.btnPage} */}
-                        <button onClick={(e) => handlePage(e)} name="prev">
-                            prev
-                        </button>
-                        {/* className={s.PageN} */}
-                        <p>{page}</p>
-                        <button onClick={(e) => handlePage(e)} name="next">
-                            next
-                        </button>
-                    </div> : <button onClick={() => handleEliminateFilters()}>Eliminate filters</button>
+                    !stateLoading && showGames.length > 15 ? <div >
+                        <div className={style.btnC}>
+                            <button className={style.btn} onClick={(e) => handlePage(e)} name="prev">
+                                prev
+                            </button>
+                            <p className={style.page}>{page}</p>
+                            <button className={style.btn} onClick={(e) => handlePage(e)} name="next">
+                                next
+                            </button>
+                        </div>
+                    </div> : <button className={style.eliminate} onClick={() => handleEliminateFilters()}>Eliminate filters</button>
                 }
             </div>
         </div>
