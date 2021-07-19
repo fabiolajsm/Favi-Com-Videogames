@@ -55,22 +55,29 @@ export default function Videogames() {
     return (
         <div className={showGames.length > 0 ? style.back1 : style.back2}>
             <div>
-                <NavBar />
-                <Orderby />
-                <FilterOptions />
-                {
-                    <div>
-                        <form >
-                            <label>Filter by Genres:</label>
-                            <select name="Genres" onChange={handleGenres} >
-                                <option key={'All'} value={'All'}>All</option>
-                                {genresState.map((e) => { // este es mi array de generos
-                                    return <option key={e.ID} value={e.name}>{e.name}</option>
-                                })}
-                            </select>
-                        </form>
+                <div>
+                    <NavBar />
+                </div>
+                <div className={style.grid_container}>
+                    <div className={style.grid_item1}><Orderby /></div>
+                    <div className={style.grid_item2}>
+                        <FilterOptions />
                     </div>
-                }
+                    <div className={style.grid_item3}>
+                        <div>
+                            <h5 className={style.label}>Filter by Genres:</h5>
+                            <form>
+                                <select className={style.box_select} name="Genres" onChange={handleGenres} >
+                                    <option key={'All'} value={'All'}>All</option>
+                                    {genresState.map((e) => { // este es mi array de generos
+                                        return <option key={e.ID} value={e.name}>{e.name}</option>
+                                    })}
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div className={style.container}>
                     {

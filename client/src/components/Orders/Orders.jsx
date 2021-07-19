@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { orderBy } from '../../actions/orders&filters'
-
+import style from '../Orders/Orders.module.css'
 export default function Orderby() {
     const dispatch = useDispatch();
-    
+
     const handleOrder = (e) => {
         switch (e.target.value) {
             case "Ascendant": dispatch(orderBy((a, b) => b.name.length - a.name.length)); break
@@ -15,13 +15,13 @@ export default function Orderby() {
             case "Lower": dispatch(orderBy((a, b) => a.rating - b.rating)); break
             default: break
         }
-    }; 
+    };
 
     return (
         <div>
-            <form >
-                <label>Order by:</label>
-                <select name="Order" onChange={handleOrder} >
+            <h5 className={style.label}>Order by:</h5>
+            <form>
+                <select className={style.box_select} name="Order" onChange={handleOrder} >
                     <option value="Ascendant">Ascendant</option>
                     <option value="Descendant">Descendant</option>
                     <option value="A-Z">Alphabetically A-Z</option>
