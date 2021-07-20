@@ -7,7 +7,7 @@ const initialState = {
     genres: [],
     filtered: [],
     platforms: [],
-    loading: true,
+    loading: true
 };
 
 function rootReducer(state = initialState, action) {
