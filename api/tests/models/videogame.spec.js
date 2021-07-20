@@ -1,7 +1,6 @@
-const { Videogame, Genre, Platform, conn } = require('../../src/db.js');
-const expect = require('chai').expect;
+const { Videogame, conn } = require('../../src/db.js');
 
-describe('Models', () => {
+describe('Models', function () {
   before(() => conn.authenticate()
     .catch((err) => {
       console.error('Unable to connect to the database:', err);
@@ -26,5 +25,6 @@ describe('Models', () => {
           .catch(() => done());
       });
     });
-  });  
+  });
+
 });

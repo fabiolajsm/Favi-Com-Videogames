@@ -9,8 +9,8 @@ module.exports = (sequelize) => {
       allowNull: false
     },
     name: {
-      type: DataTypes.STRING, 
-      allowNull: true,
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     timestamps: false

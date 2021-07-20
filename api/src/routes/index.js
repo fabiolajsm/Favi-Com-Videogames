@@ -1,8 +1,8 @@
 const { Router } = require('express');
-const { getGames } = require('../controllers/videogames')
-const { getGamebyId, addGame } = require('../controllers/videogame')
-const { getAllGenres } = require('../controllers/genres')
-const { getPlatforms } = require('../controllers/platforms')
+const { getGames } = require('../controllers/videogames');
+const { getGamebyId, addGame } = require('../controllers/videogame');
+const { getAllGenres } = require('../controllers/genres');
+const { getPlatforms } = require('../controllers/platforms');
 
 const router = Router();
 

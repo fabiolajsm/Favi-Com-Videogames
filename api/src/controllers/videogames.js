@@ -4,7 +4,7 @@ const { Videogame, Genre, Platform } = require('../db');
 const BASE_URL = process.env.BASE_URL
 const API_KEY = process.env.API_KEY
 
-const ONEHUNDRED = async function () { // refactorear!! no hacer 5 llamadas a la api, es nefasto.
+const onehundred = async function () {
     let r1 = await axios.get(`${BASE_URL}?key=${API_KEY}`);
     let r2 = await axios.get(`${BASE_URL}?key=${API_KEY}&page=2`);
     let r3 = await axios.get(`${BASE_URL}?key=${API_KEY}&page=3`);
@@ -21,7 +21,7 @@ const ONEHUNDRED = async function () { // refactorear!! no hacer 5 llamadas a la
         rating: game.rating,
         platforms: game.platforms.map(p => p.platform.name),
         genres: game.genres.map(g => g.name)
-    }))
+    }));
     let dataDB = await Videogame.findAll({ include: [Genre, Platform] });
     let myData = await dataDB && dataDB.map(game => ({
         id: game.ID,
@@ -33,14 +33,14 @@ const ONEHUNDRED = async function () { // refactorear!! no hacer 5 llamadas a la
         rating: game.rating,
         platforms: game.platforms.map(p => p.name),
         genres: game.genres.map(g => g.name)
-    }))
+    }));
     let allResults = await [...myData, ...dataAPI].slice(0, 101)
     return allResults
 };
 
 const getGames = async (req, res) => {
     const { name } = req.query;
-    let allResults = await ONEHUNDRED()
+    let allResults = await onehundred()
     if (!name) {
         return res.json(allResults);
     }
@@ -48,8 +48,7 @@ const getGames = async (req, res) => {
         let has = false
         await allResults.forEach(e => e.name.toLowerCase().includes(name.toLowerCase()) ? has = true : has);
         if (!has) {
-            // return res.status(404).send('Sorry! I dont have that videogame')
-            return res.send('Sorry! I dont have that videogame')
+            return res.send('Sorry! I dont have that videogame');
         }
         else {
             let filter = allResults.filter(e => e.name.toLowerCase().includes(name.toLowerCase())).slice(0, 16);
@@ -62,7 +61,7 @@ const getGames = async (req, res) => {
                     rating: e.rating
                 }
                 return obj
-            })
+            });
             return res.send(principalRouteData)
         }
     }
@@ -70,5 +69,5 @@ const getGames = async (req, res) => {
 
 module.exports = {
     getGames,
-    ONEHUNDRED
+    onehundred
 };

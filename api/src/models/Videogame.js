@@ -11,7 +11,7 @@ module.exports = (sequelize) => {
     created: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
-      allowNull: true,
+      allowNull: true
     },
     name: {
       type: DataTypes.STRING,
@@ -27,7 +27,7 @@ module.exports = (sequelize) => {
     },
     releaseDate: {
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: true
     },
     rating: {
       type: DataTypes.DECIMAL,

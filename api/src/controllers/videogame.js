@@ -1,21 +1,16 @@
 require("dotenv").config();
 const axios = require("axios");
 const { Videogame, Genre, Platform } = require('../db');
-let { ONEHUNDRED } = require('./videogames')
+let { onehundred } = require('./videogames')
 const Sequelize = require('sequelize');
-const Op = Sequelize.Op; // no se si aqui va
-
+const Op = Sequelize.Op; 
 const BASE_URL = process.env.BASE_URL
 const API_KEY = process.env.API_KEY
-// Los campos mostrados en la ruta principal para cada videojuegos (imagen, nombre, y géneros)
-// Descripción
-// Fecha de lanzamiento
-// Rating
-// Plataformas
+
 const getGamebyId = async (req, res, _next) => {
     let { id } = req.params
     try {
-        let results = await ONEHUNDRED()
+        let results = await onehundred()
         if (id && typeof id === 'string') {
             let filter = results.filter(e => e.id == id)
             let doesntExist = filter.some(e => e.description == '')
@@ -39,21 +34,13 @@ const getGamebyId = async (req, res, _next) => {
         res.status(404).send(err)
     }
 };
-// POST /videogame:
-// Recibe los datos recolectados desde el formulario controlado de la ruta de creación de videojuego por body
-// Crea un videojuego en la base de datos
-// del front :Ruta de creación de videojuegos: debe contener
-//  Un formulario controlado con los siguientes campos
-//  Nombre
-//  Descripción
-//  img 
-//  Fecha de lanzamiento
-//  Rating
+
 const addGame = async (req, res, _next) => {
-    const { name, description, img, releaseDate, rating, platforms, genres } = req.body // psslsnd  // un id
+    const { name, description, img, releaseDate, rating, platforms, genres } = req.body 
     try {
         let exists = await Videogame.findOne({ where: { name: name }, include: Genre })
-        if (exists) return res.send('That videogame already exists, try adding another!')
+        if (exists) return res.send('That videogame already exists, try adding another!');
+
         const newGame = await Videogame.create({
             name: name,
             description: description,
@@ -62,13 +49,13 @@ const addGame = async (req, res, _next) => {
             rating: parseInt(rating),
         })
 
-        const Platforms = await Platform.findAll({ // [{},{}]
+        const Platforms = await Platform.findAll({ 
             where: {
                 ID: {
                     [Op.in]: platforms
                 }
             }
-        })
+        });
         await newGame.setPlatforms(Platforms);
 
         const Genres = await Genre.findAll({
@@ -77,7 +64,7 @@ const addGame = async (req, res, _next) => {
                     [Op.in]: genres
                 }
             }
-        })
+        });
         await newGame.setGenres(Genres);
 
         let game = await Videogame.findOne({ where: { name: name }, include: [Platform, Genre] })
@@ -87,36 +74,6 @@ const addGame = async (req, res, _next) => {
         console.log(err, 'heree');
     }
 };
-
-// const addGame = async (req, res, _next) => {
-//     const { name, description, img, releaseDate, rating, platforms, genres } = req.body // psslsnd  // un id
-//     try {
-//         let exists = await Videogame.findOne({ where: { name: name }, include: Genre })
-//         if (exists) return res.send('That videogame already exists, try adding another!')
-//         const newGame = await Videogame.create({
-//             name: name,
-//             description: description,
-//             img: img,
-//             releaseDate: releaseDate,
-//             rating: parseInt(rating),
-//         })
-//         let g = genres.map(e => {
-//             return { name: e };
-//         })
-//         let p = platforms.map(e => {
-//             return { name: e };
-//         })
-//         var newGenres = await Genre.bulkCreate(g)
-//         var newPlatform = await Platform.bulkCreate(p)
-//         await newGame.setGenres(newGenres);
-//         await newGame.setPlatforms(newPlatform);
-//         let game = await Videogame.findOne({ where: { name: name }, include: [Platform, Genre] })
-//         return res.json(game)
-//     }
-//     catch (err) {
-//         next(err)
-//     }
-// };
 
 module.exports = {
     getGamebyId,

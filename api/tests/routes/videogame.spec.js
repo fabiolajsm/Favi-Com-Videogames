@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 const { expect } = require('chai');
 const session = require('supertest-session');
 const app = require('../../src/app.js');
@@ -6,11 +5,12 @@ const { conn } = require('../../src/db.js');
 const agent = session(app);
 
 describe('Videogame routes', function () {
+
   before(function () {
     conn.authenticate()
-    .catch((err) => {
-      console.error('Unable to connect to the database:', err);
-    })
+      .catch((err) => {
+        console.error('Unable to connect to the database:', err);
+      })
   });
 
   describe('GET /videogames', function () {
@@ -50,4 +50,5 @@ describe('Videogame routes', function () {
       } catch (err) { }
     }).timeout(15000);
   });
+
 });
