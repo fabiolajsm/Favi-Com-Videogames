@@ -43,20 +43,23 @@
     margin-top: 10px;
     align-content: center;
     text-align: center;
-    position: relative;
-    margin-left: 172px
+    margin-left: 172px;
+    display: flex;
 }
 
 .subtitlePlat {
     color: #eee;
-    font-family: sans-serif;
+    display: flex;
     font-size: 16px;
-    font-weight: 600;
+    padding: 0px 5px;
     margin-top: 10px;
-    align-content: center;
+    align-content: space-around;
     text-align: center;
-    position: relative;
-    margin-left: 164px
+    margin-left: 164px;
+    justify-content: flex-start;
+    align-items: flex-end;
+    flex-direction: row;
+    flex-wrap: nowrap;
 }
 
 .input_container {

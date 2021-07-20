@@ -1,0 +1,27 @@
+.div {
+    opacity: 1;
+    background-image: url('https://i.pinimg.com/originals/05/a4/06/05a4062115d430f2e878179787fe599d.gif');
+    background-size: cover;
+    background-position: center 70%;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+}
+
+.title {
+    color: white;
+    background-color: black;
+    margin-top: 24%;
+}
+
+.btn {
+    text-decoration: none;
+    background-color: black;
+    color: white;
+    border-radius: 10px;
+}
+
+.btn:hover {
+    background-color: #b7b7a4;
+    color: black;
+}
