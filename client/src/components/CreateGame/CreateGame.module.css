@@ -155,9 +155,21 @@
 
 .back {
     background-color: transparent;
+    border-radius: 12px;
+    border: 0;
+    box-sizing: unset;
+    color: black;
+    font-size: 15px;
+    height: 30px;
+    margin-bottom: 8px;
+    margin-top: 10px;
+    outline: 0;
     text-align: center;
-    border-color: thistle;
-    text-decoration: none;
-    align-items: center;
-    border-radius: 2px;
+    width: 7%;
+    border: 1px solid black;
+}
+
+.back:hover {
+    background-color: rgb(52, 58, 64, 0.1);
+    color: rgb(52, 58, 64);
 }

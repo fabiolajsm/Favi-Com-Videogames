@@ -14,22 +14,34 @@ export default function GameDetail() {
         dispatch(getGameById(id))
     }, [id, dispatch]);
     return (
-        <div className={style.allDiv}>
+        <div>
             {
                 state && Object.keys(state).length > 0 ?
-                    <>
-                        <div className={style.allDiv}>
+                    <div className={style.allDiv}>
+                        <div>
                             <h1 className={style.title}>{state.name}</h1>
-                            <img className={style.imgIzq} src={state.img} alt="Not found" />
-                            <h6 className={style.des}>Description: {state.description.replace(/<[^>]+>/g, '')}</h6>
-                            <h4 className={style.text}>◽ Rating: {state.rating} ◽ Released Date: {state.releaseDate} ◽ Genres: {state.genres} ◽ Platforms: {state.platforms}</h4>
+                            <img className={style.img} src={state.img} alt="Not found" />
+                            <h6 className={style.des}>{state.description.replace(/<[^>]+>/g, '')}</h6>
+                            <div className={style.cp}>
+                                <h4 className={style.text}>
+                                    <span className={style.tt}>◽ Rating:  </span>{state.rating}
+                                    <span className={style.tt}>◽ Platforms:</span>{state.platforms}
+                                </h4>
+                                <h4 className={style.text}>
+                                    <span className={style.tt}>◽ Genres:</span>{state.genres}
+                                    <span className={style.tt}>◽ Released Date:  </span>{state.releaseDate}
+                                </h4>
+                            </div>
                         </div>
-                        <Link to="/videogames">back home</Link>
-                    </>
+                        <Link to="/videogames">
+                            <button className={style.btn}>
+                                back home
+                            </button>
+                        </Link>
+                    </div>
                     :
                     <div className={style.loading}></div>
             }
         </div>
-
     )
 };
