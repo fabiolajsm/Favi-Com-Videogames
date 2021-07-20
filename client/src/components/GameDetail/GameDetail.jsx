@@ -19,7 +19,7 @@ export default function GameDetail() {
                 state && Object.keys(state).length > 0 ?
                     <div className={style.allDiv}>
                         <div>
-                            <h1 className={style.title}>{state.name}</h1>
+                            <h1 className={style.title}>Videogame: {state.name}</h1>
                             <img className={style.img} src={state.img} alt="Not found" />
                             <h6 className={style.des}>{state.description.replace(/<[^>]+>/g, '')}</h6>
                             <div className={style.cp}>
