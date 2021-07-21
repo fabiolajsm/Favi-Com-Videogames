@@ -54,7 +54,7 @@ export default function Videogames() {
         else {
             const offset = page * 15;
             const initial = offset - 15;
-            window.scrollTo(0, 0)
+            window.scrollTo(0, 0) // slower transition
             return showGames.slice(initial, offset);
         }
     };
@@ -63,7 +63,8 @@ export default function Videogames() {
         <div className={stateLoading ? style.back2 : style.back1}>
             <div>
                 <div>
-                    <NavBar />
+                    {/* better from the routing */}
+                    <NavBar /> 
                 </div>
                 <div className={style.grid_container}>
                     <div className={style.grid_item1}><Orderby /></div>

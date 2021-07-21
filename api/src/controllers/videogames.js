@@ -5,11 +5,13 @@ const BASE_URL = process.env.BASE_URL
 const API_KEY = process.env.API_KEY
 
 const onehundred = async function () {
-    let r1 = await axios.get(`${BASE_URL}?key=${API_KEY}`);
-    let r2 = await axios.get(`${BASE_URL}?key=${API_KEY}&page=2`);
-    let r3 = await axios.get(`${BASE_URL}?key=${API_KEY}&page=3`);
-    let r4 = await axios.get(`${BASE_URL}?key=${API_KEY}&page=4`);
-    let r5 = await axios.get(`${BASE_URL}?key=${API_KEY}&page=5`);
+    let promise1 = axios.get(`${BASE_URL}?key=${API_KEY}`);
+    let promise2 = axios.get(`${BASE_URL}?key=${API_KEY}&page=2`);
+    let promise3 = axios.get(`${BASE_URL}?key=${API_KEY}&page=3`);
+    let promise4 = axios.get(`${BASE_URL}?key=${API_KEY}&page=4`);
+    let promise5 = axios.get(`${BASE_URL}?key=${API_KEY}&page=5`);
+    let promises = await Promise.all([promise1, promise2, promise3, promise4, promise5]);
+    let [r1, r2, r3, r4, r5] = promises
     let dataAPI = await [...r1.data.results, ...r2.data.results, ...r3.data.results, ...r4.data.results, ...r5.data.results];
     dataAPI = await dataAPI && dataAPI.map(game => ({
         id: game.id,
