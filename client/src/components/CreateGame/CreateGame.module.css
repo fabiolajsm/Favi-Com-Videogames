@@ -126,7 +126,8 @@
 }
 
 .global {
-    background-color: black;
+    /* background-color: black; */
+    background-image: url('https://i.pinimg.com/564x/e9/e3/29/e9e3292c28668f00708f03e430218dac.jpg');
     padding-top: 45px;
 }
 
@@ -148,20 +149,21 @@
     width: 136px;
     height: 140px;
     position: inherit;
-    padding-right: 20px;
+    padding-right: 30px;
     padding-top: 10px;
 }
 
 .bigDiv {
-    background-color: #b7b7a4
+    background-color: rgb(51, 53, 51, 0.2);
 }
 
 .back {
+    /* #b7b7a4 */
     background-color: transparent;
     border-radius: 12px;
     border: 0;
     box-sizing: unset;
-    color: black;
+    color: rgb(52, 58, 64);;
     font-size: 15px;
     height: 30px;
     margin-bottom: 8px;
@@ -169,7 +171,7 @@
     outline: 0;
     text-align: center;
     width: 7%;
-    border: 1px solid black;
+    border: 1px solid rgb(52, 58, 64);;
 }
 
 .back:hover {

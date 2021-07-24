@@ -21,8 +21,8 @@
 }
 
 .title {
-    font-size: 45px;
-    font-family: 'Otomanopee One', sans-serif;
+    font-size: 50px;
+    font-family: 'Audiowide', cursive;
     text-align: center;
     align-content: center;
     position: relative;
@@ -35,12 +35,12 @@
 
 .bt {
     background: rgba(255, 242, 178, 0.5);
-    padding: 15px 32px;
+    padding: 15px 12px;
     border-radius: 18px;
     text-align: center;
     display: inline-block;
-    font-size: 1rem;
-    font-family: 'Otomanopee One', sans-serif;
+    font-size: 10px;
+    font-family: 'Press Start 2P', cursive;
     cursor: pointer;
     outline: none;
     margin: 16px 0 0 0;

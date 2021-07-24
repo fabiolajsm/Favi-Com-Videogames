@@ -28,24 +28,18 @@ export default function Videogames() {
         }
     }, [dispatch]);
 
-    const handleGenres = (e) => { dispatch(filterByGenres(state, e.target.value)) };
+    const handleGenres = (e) => {
+        setPage(1)
+        dispatch(filterByGenres(state, e.target.value))
+    };
 
     const handleEliminateFilters = () => {
-        dispatch(getAllGames())
+        setPage(1)
         dispatch(loading(true))
+        dispatch(getAllGames())
     };
 
-    const handlePage = (e) => {
-        if (e.target.name === "next") {
-            if (page === Math.ceil(showGames.length / 15))
-                return alert(`There are no more pages`);
-            setPage(page + 1);
-        }
-        else {
-            if (page === 1) return alert(`There are no more previus pages`);
-            setPage(page - 1);
-        }
-    };
+    const handlePage = (e) => { e.target.name === "next" ? setPage(page + 1) : setPage(page - 1) };
 
     const paginate = (showGames, page) => {
         if (showGames.length < 15 && showGames.length !== 0) {
@@ -54,7 +48,7 @@ export default function Videogames() {
         else {
             const offset = page * 15;
             const initial = offset - 15;
-            window.scrollTo(0, 0) // slower transition
+            window.scrollTo(200, 200) // slower
             return showGames.slice(initial, offset);
         }
     };
@@ -63,8 +57,7 @@ export default function Videogames() {
         <div className={stateLoading ? style.back2 : style.back1}>
             <div>
                 <div>
-                    {/* better from the routing */}
-                    <NavBar /> 
+                    <NavBar />
                 </div>
                 <div className={style.grid_container}>
                     <div className={style.grid_item1}><Orderby /></div>
@@ -96,18 +89,28 @@ export default function Videogames() {
                             </div>
                         })
                     }
+                    {
+                        !stateLoading && showGames.length === 0 ?
+                            <Game id="Not found" img="https://i.pinimg.com/564x/5f/92/5a/5f925a4b065b191e76aed89ab4d94d17.jpg" name="Not found" genres={["not found"]} />
+                            : null
+                    }
                 </div>
-
                 {
                     !stateLoading && showGames.length > 15 ? <div >
                         <div className={style.btnC}>
-                            <button className={style.btn} onClick={(e) => handlePage(e)} name="prev">
-                                prev
-                            </button>
+                            {page !== 1 ?
+                                <button className={style.btn} onClick={(e) => handlePage(e)} name="prev">
+                                    prev
+                                </button>
+                                : null
+                            }
                             <p className={style.page}>{page}</p>
-                            <button className={style.btn} onClick={(e) => handlePage(e)} name="next">
-                                next
-                            </button>
+                            {page < 7 ?
+                                <button className={style.btn} onClick={(e) => handlePage(e)} name="next">
+                                    next
+                                </button>
+                                : null
+                            }
                         </div>
                     </div> : <button className={style.eliminate} onClick={() => handleEliminateFilters()}>Eliminate filters</button>
                 }
