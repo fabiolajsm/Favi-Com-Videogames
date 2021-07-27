@@ -62,7 +62,7 @@ export default function CreateGame() {
             <img src={imgnav} alt="not found" className={style.littlenav} />
             <div className={style.global}>
                 <div className={`${style.container} ${style.center}`}>
-                    <form onSubmit={(e) => handleSubmit(e)} className={style.form} >
+                    <form onSubmit={(e) => handleSubmit(e)} className={style.form} autocomplete="off">
                         <div className={style.subtitle}>Let's create your videogame!</div>
                         <div className={`${style.input_container} ${style.ic1}`}>
                             <input className={style.input} type="text" name="name" value={name} required onChange={handleChange} placeholder="Name" />
