@@ -8,7 +8,7 @@ export const getDetail = (videogame) => ({
 
 export const getGameById = (id) => {
     return (dispatch) => {
-        return axios.get(`http://localhost:3001/videogame/${id}`)
+        return axios.get(`/videogame/${id}`)
         .then(videogame => {
             dispatch(getDetail(videogame.data))
         })

@@ -13,7 +13,7 @@ export const loading = (loading) => ({
 
 export const getByName = (name) => {
     return (dispatch) => {
-        return axios.get(`http://localhost:3001/videogames?name=${name}`)
+        return axios.get(`/videogames?name=${name}`)
             .then(videogames => {
                 if (videogames.data === "Sorry! I dont have that videogame") {
                     let notFound = [{

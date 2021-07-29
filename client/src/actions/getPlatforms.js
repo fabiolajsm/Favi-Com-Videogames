@@ -3,7 +3,7 @@ import { GET_PLATFORMS } from './constants'
 
 export default function getPlatforms() {
     return (dispatch) => {
-        return axios.get(`http://localhost:3001/platforms`)
+        return axios.get(`/platforms`)
             .then(videogame => {
                 dispatch({ type: GET_PLATFORMS, payload: videogame.data })
             })

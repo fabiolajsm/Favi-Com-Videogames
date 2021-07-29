@@ -8,7 +8,7 @@ export const games = (videogames) => ({
 
 export const getAllGames = () => {
     return (dispatch) => {
-        return axios.get(`http://localhost:3001/videogames`)
+        return axios.get(`/videogames`)
             .then(videogames => {
                 dispatch(games(videogames.data))
             })

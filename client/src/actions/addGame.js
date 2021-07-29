@@ -8,7 +8,7 @@ export const add = (videogame) => ({
 
 export default function addGame(body) {
     return (dispatch) => {
-        return axios.post("http://localhost:3001/videogame/post", body)
+        return axios.post("/videogame/post", body)
             .then(videogame => {
                 dispatch(add(videogame.data))
             })
