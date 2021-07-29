@@ -23,7 +23,7 @@ const { conn } = require('./src/db.js');
 const PORT = process.env.PORT
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
+conn.sync({ force: false }).then(() => { // force: true 
   platforms()
   console.log('Successfully connect to the database');
   server.listen(PORT, () => {
