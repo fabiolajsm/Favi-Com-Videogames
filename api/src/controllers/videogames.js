@@ -41,31 +41,36 @@ const onehundred = async function () {
 };
 
 const getGames = async (req, res) => {
-    const { name } = req.query;
-    let allResults = await onehundred()
-    if (!name) {
-        return res.json(allResults);
-    }
-    else {
-        let has = false
-        await allResults.forEach(e => e.name.toLowerCase().includes(name.toLowerCase()) ? has = true : has);
-        if (!has) {
-            return res.send('Sorry! I dont have that videogame');
+    try {
+        const { name } = req.query;
+        let allResults = await onehundred()
+        if (!name) {
+            return res.json(allResults);
         }
         else {
-            let filter = allResults.filter(e => e.name.toLowerCase().includes(name.toLowerCase())).slice(0, 16);
-            let principalRouteData = filter.map(e => {
-                let obj = {
-                    id: e.id,
-                    img: e.img,
-                    name: e.name,
-                    genres: e.genres,
-                    rating: e.rating
-                }
-                return obj
-            });
-            return res.send(principalRouteData)
+            let has = false
+            await allResults.forEach(e => e.name.toLowerCase().includes(name.toLowerCase()) ? has = true : has);
+            if (!has) {
+                return res.send('Sorry! I dont have that videogame');
+            }
+            else {
+                let filter = allResults.filter(e => e.name.toLowerCase().includes(name.toLowerCase())).slice(0, 16);
+                let principalRouteData = filter.map(e => {
+                    let obj = {
+                        id: e.id,
+                        img: e.img,
+                        name: e.name,
+                        genres: e.genres,
+                        rating: e.rating
+                    }
+                    return obj
+                });
+                return res.send(principalRouteData)
+            }
         }
+    }
+    catch (err) {
+        res.send('Error');
     }
 };
 
